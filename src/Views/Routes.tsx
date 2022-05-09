@@ -1,14 +1,9 @@
 import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import LoadingScreen from '../Components/loading-screen';
-import DashboardLayout from '../Components/views/dashboard-layout';
-
-// const AppRoutes = () => (
-//     <Routes>
-//         <DashboardLayout />
-//     </Routes>
-// )
-
-// export default AppRoutes
+// import { PlaylistPresentation } from '../Components/Playlist/playlist-presentation';
+// import DashboardLayout from '../Components/views/dashboard-layout';
+// import Dashboard from '../Components/views/dashboard';
 
 const Loadable = (Component: any) => (props: any) =>
     (
@@ -17,16 +12,31 @@ const Loadable = (Component: any) => (props: any) =>
         </Suspense>
     );
 
+const DashboardLayout = Loadable(lazy(() => import('../Components/views/dashboard-layout')));
 const Dashboard = Loadable(lazy(() => import('../Components/views/dashboard')));
+const PlaylistPresentation = Loadable(lazy(() => import('../Components/Playlist/playlist-presentation')));
 
-const routes = [
-    {
-        path: 'dashboard',
-        element: (
-            // <AuthGuard>
-            <DashboardLayout />
-            // </AuthGuard>
-        ),
-    },
-];
-export default routes;
+const AppRoutes = () => (
+    <Routes>
+        <Route path="home" element={<DashboardLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="playlist" element={<PlaylistPresentation />} />
+            <Route path="*" element={<DashboardLayout />} />
+        </Route>
+        <Route path="*" element={<DashboardLayout />} />
+    </Routes>
+);
+
+export default AppRoutes;
+
+// const routes = [
+//     {
+//         path: 'dashboard',
+//         element: (
+//             // <AuthGuard>
+//             <DashboardLayout />
+//             // </AuthGuard>
+//         ),
+//     },
+// ];
+// export default routes;

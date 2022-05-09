@@ -6,9 +6,10 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import PlaylistEditPresentation from './PlaylistEdit/playlist-edit-presentation';
 import PlaylistPreviewPresentation from './PlaylistPreview/playlist-preview-presentation';
 import PlayerLayout from '../Player/player-presentation';
-import Sidebar from '../views/sidebar';
+import Sidebar from '../Navigation/sidebar';
+import Bottombar from '../Navigation/bottombar';
 
-export const PlaylistPresentation = () => {
+const PlaylistPresentation = () => {
     const friends = useLiveQuery(() => db.friends.toArray());
     const myPlaylists = useLiveQuery(() => db.playlists.toArray());
     const [sidebarClassname, setSidebarClassname] = useState(true);
@@ -36,47 +37,63 @@ export const PlaylistPresentation = () => {
 
     return (
         <>
-            {/* <p>{status}</p> */}
+            <div className={'dashboard-body'}>
+                {/* <p>{status}</p> */}
 
-            <Sidebar
-                newPlaylist={newPlaylist}
-                myPlaylists={myPlaylists}
-                setNewPlaylist={setNewPlaylist}
-                addPlaylist={addPlaylist}
-                setEditPlaylist={setEditPlaylist}
-                setActivePlaylist={setActivePlaylist}
-                sidebarClassname={sidebarClassname}
-            />
+                {/* <Sidebar
+                    newPlaylist={newPlaylist}
+                    myPlaylists={myPlaylists}
+                    setNewPlaylist={setNewPlaylist}
+                    addPlaylist={addPlaylist}
+                    setEditPlaylist={setEditPlaylist}
+                    setActivePlaylist={setActivePlaylist}
+                    sidebarClassname={sidebarClassname}
+                /> */}
 
-            {/* <PlaylistPreviewPresentation
-                activePlaylist={activePlaylist}
-                setActivePlaylist={setActivePlaylist}
-                setEditPlaylist={setEditPlaylist}
-            /> */}
+                {/* <PlaylistPreviewPresentation
+                    activePlaylist={activePlaylist}
+                    setActivePlaylist={setActivePlaylist}
+                    setEditPlaylist={setEditPlaylist}
+                /> */}
 
-            <PlaylistEditPresentation
-                setPlaylistForPlayer={setPlaylistForPlayer}
-                playlist={playlist}
-                editPlaylist={editPlaylist}
-                setEditPlaylist={setEditPlaylist}
-                setActivePlaylist={setActivePlaylist}
-            />
+                <PlaylistEditPresentation
+                    setPlaylistForPlayer={setPlaylistForPlayer}
+                    playlist={playlist}
+                    editPlaylist={editPlaylist}
+                    setEditPlaylist={setEditPlaylist}
+                    setActivePlaylist={setActivePlaylist}
+                />
 
-            <div>
-                <button
+                <div>
+                    {/* <button
                     onClick={() => {
                         setSidebarClassname(!sidebarClassname);
                     }}
                     data-effect="st-effect-1"
                 >
                     Sidebar
-                </button>
-                <PlayerLayout
-                    activePlaylist={activePlaylist}
+                </button> */}
+                    <PlayerLayout
+                        activePlaylist={activePlaylist}
+                        setEditPlaylist={setEditPlaylist}
+                        setActivePlaylist={setActivePlaylist}
+                    />
+                </div>
+            </div>
+
+            <div className={' bottombar'}>
+                <Bottombar
+                    newPlaylist={newPlaylist}
+                    myPlaylists={myPlaylists}
+                    setNewPlaylist={setNewPlaylist}
+                    addPlaylist={addPlaylist}
                     setEditPlaylist={setEditPlaylist}
                     setActivePlaylist={setActivePlaylist}
+                    sidebarClassname={sidebarClassname}
                 />
             </div>
         </>
     );
 };
+
+export default PlaylistPresentation;

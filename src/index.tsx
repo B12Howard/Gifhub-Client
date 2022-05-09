@@ -5,13 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { register as registerServiceWorker } from './serviceWorkerRegistration';
+import AppRoutes from './Views/Routes';
+import { HelmetProvider } from 'react-helmet-async';
 // import Offline from './Shared/Components/Offline/offline';
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        <HelmetProvider>
+            <BrowserRouter>
+                <AppRoutes />
+            </BrowserRouter>
+        </HelmetProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );

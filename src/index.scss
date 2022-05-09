@@ -39,3 +39,14 @@ code {
 .open-sidebar {
     margin-left: 0px;
 }
+
+.bottombar {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 2%;
+}
+.container {
+    width: 98% !important;
+}

@@ -43,4 +43,5 @@ $player-width: 70vw;
 .slideshow-container {
     display: flex;
     flex-direction: column;
+    min-height: 80vh;
 }
