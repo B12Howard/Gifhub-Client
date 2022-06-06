@@ -1,4 +1,8 @@
+@import './_variables';
+
 body {
+    background-color: #f6f1ed;
+
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
         'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -49,4 +53,32 @@ code {
 }
 .container {
     width: 98% !important;
+}
+
+div .base-form-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    > .base-input-container {
+        padding-bottom: 1rem;
+    }
+}
+
+div .login-container {
+    @extend .base-form-container;
+    width: 25%;
+    min-width: 350px;
+
+    @media only screen and (max-width: $small) {
+        width: 100%;
+        min-width: 250px;
+    }
+
+    > .login-input-container {
+        @extend .base-input-container;
+    }
+}
+
+.flex {
+    display: flex;
 }
