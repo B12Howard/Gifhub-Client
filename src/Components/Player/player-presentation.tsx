@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IPlaylist } from '../../db';
+import Button from '../../Shared/Components/button';
 import Swipe from '../../Shared/Components/Touch/swipe';
 import usePlayer from './player';
 import PlayerItem from './player-item';
@@ -33,8 +34,8 @@ const PlayerLayout = ({ activePlaylist, setActivePlaylist, setEditPlaylist }: Pr
     return (
         <div className="slideshow-container">
             <div>
-                <button onClick={() => toggleEdit()}>Edit Playlist</button>
-                <button onClick={() => stopAutoPlay()}>stop autoplay</button>
+                <Button name={'Edit Playlist'} callback={(val: any) => toggleEdit()} />
+                <Button name={'Stop Autoplay'} callback={(val: any) => stopAutoPlay()} />
             </div>
             <Swipe
                 index={index}

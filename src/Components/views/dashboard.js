@@ -50,19 +50,22 @@ const Dashboard = () => {
         }
     }, []);
 
-    const naviagate = (index, source) => {
-        if (source === 'sector') {
-            setSelectedSectionData('Go to ' + selectedPortfolio.sectors_held.sector_name[index]);
-        } else {
-            setSelectedSectionData2('Go to ' + selectedPortfolio.securities.ticker[index]);
-        }
-    };
+    // const naviagate = (index, source) => {
+    //     if (source === 'sector') {
+    //         setSelectedSectionData('Go to ' + selectedPortfolio.sectors_held.sector_name[index]);
+    //     } else {
+    //         setSelectedSectionData2('Go to ' + selectedPortfolio.securities.ticker[index]);
+    //     }
+    // };
 
     return (
-        <div className={``}>
-            <Helmet>
-                <title>Dashboard</title>
-            </Helmet>
+        <>
+            <div className={``}>
+                <Helmet>
+                    <title>Dashboard</title>
+                </Helmet>
+                hasl;fjslkdfj
+            </div>
             <div className={`col-md-6 mb-5`}>Hello! {name}</div>
             <div className={`ml-3`}>
                 {/* TODO make dynamic from the apiRes data */}
@@ -108,7 +111,7 @@ const Dashboard = () => {
             ) : (
                 'Loading...'
             )}
-        </div>
+        </>
     );
 };
 
