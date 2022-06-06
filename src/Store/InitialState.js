@@ -1,11 +1,19 @@
 const initialState = {
     user: {
-        firstName: '',
-        lastName: '',
+        accessToken: '',
+        displayName: '',
         email: '',
-        group: '',
-        ui: {},
+        emailVerified: '',
+        metadata: {
+            createdAt: '',
+            creationTime: '',
+            lastLoginAt: '',
+            lastSignInTime: '',
+        },
+        uid: '',
+    },
+    ws: {
+        id: '',
     },
 };
-
 export default initialState;

@@ -1,4 +1,4 @@
-import initialState from './InitalState';
+import initialState from './InitialState';
 
 const Reducer = (state, action) => {
     switch (action.type) {
@@ -6,6 +6,11 @@ const Reducer = (state, action) => {
             return {
                 ...state,
                 user: action.payload,
+            };
+        case 'SET_WS':
+            return {
+                ...state,
+                ws: action.payload,
             };
         case 'RESET_STATE':
             return {
