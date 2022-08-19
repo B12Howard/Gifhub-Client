@@ -128,6 +128,10 @@ button:focus {
 
 .sidebar-list-item {
     color: #810333;
+
+    &.light {
+        color: #f6f1ed;
+    }
 }
 
 @media screen and (max-width: 991px) {
@@ -138,4 +142,8 @@ button:focus {
 
 .sidenav {
     background-color: #810333 !important;
+}
+
+.burger {
+    color: #810333;
 }
