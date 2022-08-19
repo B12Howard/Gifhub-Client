@@ -16,30 +16,30 @@ interface Props {
 const Bottombar = ({ myPlaylists, setPlaylist }: Props) => {
     return (
         <div>
-            <div className={`flex`}>
-                <div>
-                    <SideNav
-                        id="SideNav-31"
-                        options={{
-                            draggable: true,
-                        }}
-                        trigger={
-                            <Button node="button" className="">
-                                ☰
-                            </Button>
-                        }
-                    >
-                        {myPlaylists?.map((playlist: IPlaylist) => (
-                            <div
-                                onClick={() => {
-                                    setPlaylist(playlist);
-                                }}
-                            >
-                                <li>{playlist.name}</li>
-                            </div>
-                        ))}
-                    </SideNav>
-                </div>
+            <div>
+                <SideNav
+                    className={`side-nav`}
+                    id="SideNav-31"
+                    options={{
+                        edge: 'right',
+                        draggable: true,
+                    }}
+                    trigger={
+                        <Button node="button" className="">
+                            ☰
+                        </Button>
+                    }
+                >
+                    {myPlaylists?.map((playlist: IPlaylist) => (
+                        <div
+                            onClick={() => {
+                                setPlaylist(playlist);
+                            }}
+                        >
+                            <li className={`sidebar-list-item`}>{playlist.name}</li>
+                        </div>
+                    ))}
+                </SideNav>
             </div>
         </div>
     );
