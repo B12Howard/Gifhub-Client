@@ -36,7 +36,7 @@ const Bottombar = ({ myPlaylists, setPlaylist }: Props) => {
                                 setPlaylist(playlist);
                             }}
                         >
-                            <li className={`sidebar-list-item`}>{playlist.name}</li>
+                            <li className={`sidebar-list-item light`}>{playlist.name}</li>
                         </div>
                     ))}
                 </SideNav>
