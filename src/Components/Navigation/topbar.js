@@ -39,13 +39,39 @@ const Topbar = ({ showLinks }) => {
             }}
         >
             {showLinks ? (
-                <div className={'flex'}>
-                    <NavItem onClick={() => navigate('/home/dashboard', { replace: true })}>Dashboard</NavItem>
-                    <NavItem onClick={() => navigate('/home/player', { replace: true })}>Player</NavItem>
-                    <NavItem onClick={() => navigate('/home/playlist', { replace: true })}>Playlists</NavItem>
-                    <NavItem onClick={() => navigate('/members/gif-creator', { replace: true })}>Gif Creator</NavItem>
-                    <NavItem onClick={() => navigate('/members/my-uploads', { replace: true })}>My Uploads</NavItem>
+                <div className={'flex column'}>
                     <NavItem
+                        className={`sidebar-list-item`}
+                        onClick={() => navigate('/home/dashboard', { replace: true })}
+                    >
+                        Dashboard
+                    </NavItem>
+                    <NavItem
+                        className={`sidebar-list-item`}
+                        onClick={() => navigate('/home/player', { replace: true })}
+                    >
+                        Player
+                    </NavItem>
+                    <NavItem
+                        className={`sidebar-list-item`}
+                        onClick={() => navigate('/home/playlist', { replace: true })}
+                    >
+                        Playlists
+                    </NavItem>
+                    <NavItem
+                        className={`sidebar-list-item`}
+                        onClick={() => navigate('/members/gif-creator', { replace: true })}
+                    >
+                        Gif Creator
+                    </NavItem>
+                    <NavItem
+                        className={`sidebar-list-item`}
+                        onClick={() => navigate('/members/my-uploads', { replace: true })}
+                    >
+                        My Uploads
+                    </NavItem>
+                    <NavItem
+                        className={`sidebar-list-item`}
                         onClick={() => {
                             LogoutService();
                             redirect('/auth/login');
