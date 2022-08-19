@@ -7,6 +7,9 @@ import { register as registerServiceWorker } from './serviceWorkerRegistration';
 import AppRoutes from './Routing/Routes';
 import { HelmetProvider } from 'react-helmet-async';
 import Store from './Store/Store';
+// @ts-ignore
+import * as serviceWorker from './serviceWorkerRegistration';
+
 // import Offline from './Shared/Components/Offline/offline';
 
 ReactDOM.render(
@@ -27,4 +30,17 @@ ReactDOM.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-registerServiceWorker();
+serviceWorker.register({
+    onUpdate: (registration: any) => {
+        const waitingServiceWorker = registration.waiting;
+
+        if (waitingServiceWorker) {
+            waitingServiceWorker.addEventListener('statechange', (event: any) => {
+                if (event.target.state === 'activated') {
+                    window.location.reload();
+                }
+            });
+            waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
+        }
+    },
+});
