@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.scss';
 import { useRoutes } from 'react-router-dom';
-import AppRoutes from './Views/Routes';
+import AppRoutes from './Routing/Routes';
 
 const App = () => {
     <div className="App">

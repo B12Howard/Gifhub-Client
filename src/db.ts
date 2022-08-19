@@ -1,35 +1,10 @@
 import Dexie, { Table } from 'dexie';
+import { IPlaylist } from './Models/playlist';
 
 export interface IFriend {
     id?: number;
     name: string;
     age: number;
-}
-
-export interface IPlaylist {
-    id?: number;
-    name: string;
-    record?: Record[];
-}
-
-export interface IRecord {
-    id?: number;
-    url: string;
-    order?: number;
-    blob?: Blob;
-    duration: number;
-    // lastPlayed: Date | null
-}
-export class Record implements IRecord {
-    id?: number;
-    url: string;
-    order?: number;
-    blob?: Blob;
-    duration: number;
-    constructor(url: string, duration?: number) {
-        this.url = url;
-        this.duration = duration ?? 2500;
-    }
 }
 
 export class MySubClassedDexie extends Dexie {

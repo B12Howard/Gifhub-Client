@@ -1,11 +1,11 @@
-import { IRecord } from '../../db';
+import { IPlaylistRecord } from '../../Models/record';
 
 interface Props {
-    record: IRecord;
+    record: IPlaylistRecord;
 }
 
 const PlayerItem = ({ record }: Props) => {
-    const createImage = (record: IRecord): string => {
+    const createImage = (record: IPlaylistRecord): string => {
         let reader = new FileReader();
         if (!record?.blob) return record.url;
         const blobUrl = URL.createObjectURL(record?.blob);

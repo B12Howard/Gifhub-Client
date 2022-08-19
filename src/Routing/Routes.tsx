@@ -4,10 +4,8 @@ import GifCreator from '../Components/GifCreator/gif-creator';
 import MyUploads from '../Components/GifCreator/my-uploads';
 import LoadingScreen from '../Components/loading-screen';
 import Login from '../Components/Login/login';
+import PlayerPresentation from '../Components/Player/player-presentation';
 import LoginLayout from '../Components/views/login-layout';
-// import { PlaylistPresentation } from '../Components/Playlist/playlist-presentation';
-// import DashboardLayout from '../Components/views/dashboard-layout';
-// import Dashboard from '../Components/views/dashboard';
 
 const Loadable = (Component: any) => (props: any) =>
     (
@@ -28,6 +26,7 @@ const AppRoutes = () => (
         </Route>
         <Route path="home" element={<DashboardLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="player" element={<PlayerPresentation />} />
             <Route path="playlist" element={<PlaylistPresentation />} />
             <Route path="*" element={<DashboardLayout />} />
         </Route>
@@ -41,15 +40,3 @@ const AppRoutes = () => (
 );
 
 export default AppRoutes;
-
-// const routes = [
-//     {
-//         path: 'dashboard',
-//         element: (
-//             // <AuthGuard>
-//             <DashboardLayout />
-//             // </AuthGuard>
-//         ),
-//     },
-// ];
-// export default routes;

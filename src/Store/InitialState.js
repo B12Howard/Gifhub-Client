@@ -15,5 +15,10 @@ const initialState = {
     ws: {
         id: '',
     },
+    activePlaylist: {
+        id: null,
+        name: null,
+        record: null,
+    },
 };
 export default initialState;

@@ -26,7 +26,7 @@ const Login = () => {
             const userCredentials = await LoginService(email, pass);
             setError('');
             setUserData(userCredentials.user);
-            redirect('/home/playlist');
+            redirect('/home/player');
         } catch (err: any) {
             setError('Incorrect Credentials');
         }

@@ -1,48 +1,45 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Bottombar from '../Navigation/bottombar';
 import Topbar from '../Navigation/topbar';
-import { Context } from '../../Store/Store';
-import PlaylistPresentation from '../Playlist/playlist-presentation';
 import { GetUserDataByKey } from '../../Services/LocalStorage';
+import usePlaylist from '../Playlist/playlist';
+import { db } from '../../db';
+import { useLiveQuery } from 'dexie-react-hooks';
 
 const DashboardLayout = () => {
     const [message, setMessage] = useState('');
     const [inputValue, setInputValue] = useState('');
+    const myPlaylists = useLiveQuery(() => db.playlists.toArray());
+    const [sidebarClassname, setSidebarClassname] = useState(true);
     // @ts-ignore
     const location = useLocation();
     let socket: WebSocket;
 
+    const { addPlaylist, setPlaylist, setActivePlaylist, setEditPlaylist, newPlaylist, setNewPlaylist } = usePlaylist();
+
     useEffect(() => {
         const uid = GetUserDataByKey('uid');
-        console.log('my uid ', uid);
-        
         socket = new WebSocket('ws://localhost:5020/ws/' + uid);
-
-        console.log('useffect', socket);
         socket.onopen = () => {
             setMessage('Connected');
         };
-
         socket.onmessage = (e) => {
             setMessage('Get message from server: ' + e.data);
         };
 
         return () => {
-            console.log('close');
             socket.close();
         };
     }, []);
 
     useEffect(() => {
         const currentPath = location.pathname;
-        console.log('crrent path', currentPath);
     }, [location]);
 
     const handleClick = useCallback(
         (e) => {
             e.preventDefault();
-            console.log('e', e);
             socket.send(
                 JSON.stringify({
                     EventName: 'message',
@@ -68,10 +65,18 @@ const DashboardLayout = () => {
                     <pre>{message}</pre>
                 </div>
                 <Outlet />
-                <div className={' bottombar'}>
-                    <Bottombar />
+                <div className={'bottombar'}>
+                    <Bottombar
+                        myPlaylists={myPlaylists}
+                        newPlaylist={newPlaylist}
+                        setNewPlaylist={setNewPlaylist}
+                        addPlaylist={addPlaylist}
+                        setEditPlaylist={setEditPlaylist}
+                        setActivePlaylist={setActivePlaylist}
+                        sidebarClassname={sidebarClassname}
+                        setPlaylist={setPlaylist}
+                    />
                 </div>
-                {/* <PlaylistPresentation /> */}
             </div>
         </div>
     );

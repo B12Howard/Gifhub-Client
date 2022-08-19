@@ -19,5 +19,5 @@ export default function ConvertToGifService(payload: IConvertPayloadDTO) {
         },
         body: JSON.stringify(payload),
     };
-    return fetch(Domain() + 'converter', options);
+    return fetch(Domain() + 'useConverter', options);
 }

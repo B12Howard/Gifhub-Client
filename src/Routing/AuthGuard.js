@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
-import { Route, Navigate, useNavigate } from 'react-router-dom';
-import { isTokenValid } from '../Services/AuthService';
+import { useContext } from 'react';
+import { Route, useNavigate } from 'react-router-dom';
+import { isTokenValid } from '../Services/AuthorizationService';
 import { Context } from '../Store/Store';
 import { deleteLocalStorage } from '../Scripts/getSetLocalStorage';
 
@@ -13,6 +13,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     const context = useContext(Context);
     const loggedIn = isTokenValid();
     const navigate = useNavigate();
+
     return (
         <Route
             render={(props) =>

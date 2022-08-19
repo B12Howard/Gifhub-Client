@@ -12,16 +12,16 @@ const Reducer = (state, action) => {
                 ...state,
                 ws: action.payload,
             };
+        case 'SET_ACTIVE_PLAYLIST':
+            return {
+                ...state,
+                activePlaylist: action.payload,
+            };
         case 'RESET_STATE':
             return {
                 ...state,
                 user: initialState.user,
             };
-        // case 'SET_ERROR':
-        //     return {
-        //         ...state,
-        //         error: action.payload
-        //     };
         default:
             return state;
     }

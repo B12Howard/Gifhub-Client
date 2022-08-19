@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { IRecord } from '../../../db';
 import { Draggable } from 'react-beautiful-dnd';
+import { IPlaylistRecord } from '../../../Models/record';
 interface Props {
-    record: IRecord;
+    record: IPlaylistRecord;
     index: number;
     deleteRecord: any;
 }

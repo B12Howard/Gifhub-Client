@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import './_button.scss';
 
-const Button = ({ name, callback }) => {
+const Button = ({ name, callback, disabled = false }) => {
     function createRipple(event) {
         console.log('ripp');
         const button = event.currentTarget;
@@ -27,7 +26,7 @@ const Button = ({ name, callback }) => {
     }
 
     return (
-        <div className={'button-container'}>
+        <div className={'button-container'} disabled>
             <button className={'floating-button'} onClick={createRipple}>
                 {name}
             </button>
