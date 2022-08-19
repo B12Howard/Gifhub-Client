@@ -60,9 +60,9 @@ const DashboardLayout = () => {
             <div className={`row`}>
                 {/* <Sidebar /> */}
                 <div className="App">
-                    <input id="input" type="text" value={inputValue} onChange={handleChange} />
-                    <button onClick={handleClick}>Send</button>
-                    <pre>{message}</pre>
+                    <pre>Status: {message}</pre>
+                    {/* <input id="input" type="text" value={inputValue} onChange={handleChange} readOnly /> */}
+                    {/* <button onClick={handleClick}>Send Message To Server</button> */}
                 </div>
                 <Outlet />
                 <div className={'bottombar'}>
