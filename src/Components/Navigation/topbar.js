@@ -41,7 +41,8 @@ const Topbar = ({ showLinks }) => {
             {showLinks ? (
                 <div className={'flex'}>
                     <NavItem onClick={() => navigate('/home/dashboard', { replace: true })}>Dashboard</NavItem>
-                    <NavItem onClick={() => navigate('/home/playlist', { replace: true })}>Player</NavItem>
+                    <NavItem onClick={() => navigate('/home/player', { replace: true })}>Player</NavItem>
+                    <NavItem onClick={() => navigate('/home/playlist', { replace: true })}>Playlists</NavItem>
                     <NavItem onClick={() => navigate('/members/gif-creator', { replace: true })}>Gif Creator</NavItem>
                     <NavItem onClick={() => navigate('/members/my-uploads', { replace: true })}>My Uploads</NavItem>
                     <NavItem
