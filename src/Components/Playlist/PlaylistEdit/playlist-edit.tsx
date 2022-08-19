@@ -1,6 +1,8 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import React, { FC, useEffect, useState } from 'react';
-import { IPlaylist, Record, db, IRecord } from '../../../db';
+import { useEffect, useState } from 'react';
+import { db } from '../../../db';
+import { IPlaylist } from '../../../Models/playlist';
+import { IPlaylistRecord, PlaylistRecord } from '../../../Models/record';
 
 interface Props {
     editPlaylist: IPlaylist | undefined;
@@ -11,11 +13,16 @@ interface Props {
 const usePlaylistEdit = ({ editPlaylist, setEditPlaylist, playlist }: Props) => {
     const [url, setUrl] = useState('');
     const [status, setStatus] = useState('');
-    const [playlistOrder, setPlaylistOrder] = useState<IRecord[] | undefined>(undefined);
+    const [playlistOrder, setPlaylistOrder] = useState<IPlaylistRecord[] | undefined>(undefined);
+    const myPlaylists = useLiveQuery(() => db.playlists.toArray());
 
     useEffect(() => {
         setPlaylistOrder(editPlaylist?.record);
     }, [editPlaylist]);
+
+    function getPlaylists() {
+        return myPlaylists;
+    }
 
     async function addGif(playlist: IPlaylist, url: string) {
         if (!playlist.id) return;
@@ -23,7 +30,7 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist, playlist }: Props) => 
 
         try {
             const id = playlist.id;
-            const record = new Record(url);
+            const record = new PlaylistRecord(url);
 
             await db.playlists
                 .where('id')
@@ -38,7 +45,7 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist, playlist }: Props) => 
         }
     }
 
-    async function saveOrder(playlistOrder: IRecord[], playlist: IPlaylist) {
+    async function saveOrder(playlistOrder: IPlaylistRecord[], playlist: IPlaylist) {
         if (!playlist.id) return;
         if (!playlistOrder) return;
 
@@ -48,7 +55,7 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist, playlist }: Props) => 
                 await db.playlists
                     .where('id')
                     .equals(playlist.id)
-                    .modify((playlist) => (playlist.record = [...playlistOrder]));
+                    .modify((playlist: IPlaylist) => (playlist.record = [...playlistOrder]));
             });
         } catch (error) {
             setStatus(`Failed to update playlist order: ${error}`);
@@ -64,7 +71,7 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist, playlist }: Props) => 
             await db.playlists
                 .where('id')
                 .equals(editPlaylist.id)
-                .modify((playlist) => (playlist.record = copyPlaylist));
+                .modify((playlist: IPlaylist) => (playlist.record = copyPlaylist));
 
             await refresh(editPlaylist.id);
         } catch (error) {
@@ -83,7 +90,7 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist, playlist }: Props) => 
             });
     }
 
-    async function convertToBlob(playlistOrder: IRecord[]) {
+    async function convertToBlob(playlistOrder: IPlaylistRecord[]) {
         for (let element of playlistOrder) {
             try {
                 if (!element.blob) {
@@ -98,7 +105,18 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist, playlist }: Props) => 
         }
     }
 
-    return { addGif, status, setStatus, url, setUrl, saveOrder, playlistOrder, setPlaylistOrder, deleteRecord };
+    return {
+        addGif,
+        status,
+        setStatus,
+        url,
+        setUrl,
+        saveOrder,
+        playlistOrder,
+        setPlaylistOrder,
+        deleteRecord,
+        getPlaylists,
+    };
 };
 
 export default usePlaylistEdit;

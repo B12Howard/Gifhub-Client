@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
-import { IPlaylist, IRecord } from '../../../db';
+import { useEffect } from 'react';
+import { IPlaylist } from '../../../Models/playlist';
 
 interface Props {
     activePlaylist: IPlaylist | undefined;
@@ -16,15 +16,9 @@ const PlaylistPreviewPresentation = ({ activePlaylist, setActivePlaylist, setEdi
     if (activePlaylist) {
         return (
             <div>
-                {/* <div>Player</div> */}
                 <div>
                     <button onClick={() => toggleEdit()}>Edit Playlist</button>
                 </div>
-                {/* <div>
-                    {activePlaylist?.record?.map((record: IRecord, index: number) => (
-                        <PlayerItem key={index} record={record} />
-                    ))}
-                </div> */}
             </div>
         );
     } else {

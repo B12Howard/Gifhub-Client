@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import { IPlaylist, IRecord } from '../../../db';
 import usePlaylistEdit from './playlist-edit';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import PlaylistEditItem from './playlist-edit-item';
+import { IPlaylist } from '../../../Models/playlist';
+import { IPlaylistRecord } from '../../../Models/record';
 
 interface Props {
     playlist: IPlaylist | undefined;
@@ -19,7 +19,7 @@ const PlaylistEditPresentation = ({
     playlist,
     setPlaylistForPlayer,
 }: Props) => {
-    const { addGif, status, setStatus, url, setUrl, saveOrder, playlistOrder, setPlaylistOrder, deleteRecord } =
+    const { addGif, url, setUrl, saveOrder, playlistOrder, setPlaylistOrder, deleteRecord, getPlaylists } =
         usePlaylistEdit({
             playlist,
             editPlaylist,
@@ -44,7 +44,7 @@ const PlaylistEditPresentation = ({
         if (!playlistOrder) {
             return;
         }
-        const alteredplaylistOrder: IRecord[] | undefined = [...playlistOrder];
+        const alteredplaylistOrder: IPlaylistRecord[] | undefined = [...playlistOrder];
 
         if (playlistOrder) {
             alteredplaylistOrder[index].duration = Number(duration);
@@ -56,11 +56,25 @@ const PlaylistEditPresentation = ({
         }
     };
 
-    if (!editPlaylist) {
-        return <></>;
-    } else
-        return (
+    return (
+        <>
             <>
+                {getPlaylists()?.map((playlist: IPlaylist) => (
+                    <div>
+                        <li
+                            className={`playlist-list-item`}
+                            onClick={() => {
+                                setEditPlaylist(playlist);
+                                setActivePlaylist(playlist);
+                            }}
+                        >
+                            {playlist.name}
+                        </li>
+                    </div>
+                ))}
+            </>
+
+            {editPlaylist && (
                 <div>
                     <div>
                         <input type="text" value={url} onChange={(ev) => setUrl(ev.target.value)} />
@@ -95,7 +109,7 @@ const PlaylistEditPresentation = ({
                         <Droppable droppableId="preview-records">
                             {(provided) => (
                                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                                    {playlistOrder?.map((record: IRecord, index: number) => (
+                                    {playlistOrder?.map((record: IPlaylistRecord, index: number) => (
                                         <>
                                             <PlaylistEditItem
                                                 key={index}
@@ -117,8 +131,9 @@ const PlaylistEditPresentation = ({
                         </Droppable>
                     </DragDropContext>
                 </div>
-            </>
-        );
+            )}
+        </>
+    );
 };
 
 export default PlaylistEditPresentation;

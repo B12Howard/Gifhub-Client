@@ -1,6 +1,8 @@
-import { useLiveQuery } from 'dexie-react-hooks';
-import React, { useEffect, useState } from 'react';
-import { db, IFriend, IPlaylist, Record } from '../../db';
+import { useEffect, useState, useContext } from 'react';
+import { db, IFriend } from '../../db';
+import { IPlaylist } from '../../Models/playlist';
+import { PlaylistRecord } from '../../Models/record';
+import { Context } from '../../Store/Store';
 
 const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
     const [name, setName] = useState('');
@@ -11,6 +13,8 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
     const [age, setAge] = useState(defaultAge);
     const [status, setStatus] = useState('');
     const [activePlaylist, setActivePlaylist] = useState<IPlaylist | undefined>(undefined);
+    // @ts-ignore
+    const [context, dispatch] = useContext(Context);
 
     useEffect(() => {
         db.playlists.orderBy('name').eachPrimaryKey(function (primaryKey) {
@@ -18,6 +22,24 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
             // the primary key of the object it refers to.
         });
     }, []);
+
+    useEffect(() => {
+        dispatch({
+            type: 'SET_ACTIVE_PLAYLIST',
+            payload: {
+                playlist,
+            },
+        });
+
+        if (playlist?.id) {
+            const plid = playlist.id;
+            const setPlaylist = async (plid: number) => {
+                setPlaylistForPlayer(plid);
+            };
+
+            setPlaylist(plid);
+        }
+    }, [playlist]);
 
     async function addPlaylist(name: string) {
         try {
@@ -37,11 +59,11 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
             if (!playlist.id) return;
             if (!url) return;
 
-            const record = new Record(url);
+            const record = new PlaylistRecord(url);
             db.playlists
                 .where('id')
                 .equals(playlist.id)
-                .modify((playlist) => (playlist.record ? playlist.record.push(record) : null));
+                .modify((playlist: IPlaylist) => (playlist.record ? playlist.record.push(record) : null));
             setUrl('');
         } catch (error) {
             setStatus(`Failed to add ${name}: ${error}`);
