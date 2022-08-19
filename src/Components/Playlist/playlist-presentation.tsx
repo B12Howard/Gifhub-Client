@@ -2,7 +2,16 @@ import usePlaylist from './playlist';
 import PlaylistEditPresentation from './PlaylistEdit/playlist-edit-presentation';
 
 const PlaylistPresentation = () => {
-    const { playlist, setActivePlaylist, editPlaylist, setEditPlaylist, setPlaylistForPlayer } = usePlaylist();
+    const {
+        newPlaylist,
+        setNewPlaylist,
+        addPlaylist,
+        playlist,
+        setActivePlaylist,
+        editPlaylist,
+        setEditPlaylist,
+        setPlaylistForPlayer,
+    } = usePlaylist();
 
     return (
         <>
@@ -13,6 +22,9 @@ const PlaylistPresentation = () => {
                     editPlaylist={editPlaylist}
                     setEditPlaylist={setEditPlaylist}
                     setActivePlaylist={setActivePlaylist}
+                    newPlaylist={newPlaylist}
+                    setNewPlaylist={setNewPlaylist}
+                    addPlaylist={addPlaylist}
                 />
             </div>
         </>

@@ -10,6 +10,9 @@ interface Props {
     setEditPlaylist: any;
     setActivePlaylist: any;
     setPlaylistForPlayer: any;
+    newPlaylist: string;
+    setNewPlaylist: React.Dispatch<React.SetStateAction<string>>;
+    addPlaylist: any;
 }
 
 const PlaylistEditPresentation = ({
@@ -18,6 +21,9 @@ const PlaylistEditPresentation = ({
     setActivePlaylist,
     playlist,
     setPlaylistForPlayer,
+    newPlaylist,
+    setNewPlaylist,
+    addPlaylist,
 }: Props) => {
     const { addGif, url, setUrl, saveOrder, playlistOrder, setPlaylistOrder, deleteRecord, getPlaylists } =
         usePlaylistEdit({
@@ -58,6 +64,17 @@ const PlaylistEditPresentation = ({
 
     return (
         <>
+            <p>Add Playlist</p>
+            <div>
+                <input type="text" value={newPlaylist} onChange={(ev) => setNewPlaylist(ev.target.value)} />
+            </div>
+            <div>
+                <button onClick={() => addPlaylist(newPlaylist)}>Add Playlist</button>
+            </div>
+            <div>
+                <p>Playlists</p>
+            </div>
+
             <>
                 {getPlaylists()?.map((playlist: IPlaylist) => (
                     <div>
@@ -74,6 +91,7 @@ const PlaylistEditPresentation = ({
                 ))}
             </>
 
+            {/* TODO make into own component */}
             {editPlaylist && (
                 <div>
                     <div>
