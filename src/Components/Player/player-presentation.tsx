@@ -59,7 +59,11 @@ const PlayerPresentation = () => {
                     presentationActivePlaylist?.record?.map((record: any, i: number) => {
                         return (
                             <SwiperSlide key={i}>
-                                <img src={record?.blob ? URL.createObjectURL(record?.blob) : record.url} alt="" />
+                                <img
+                                    className={`gif-player-image`}
+                                    src={record?.blob ? URL.createObjectURL(record?.blob) : record.url}
+                                    alt=""
+                                />
                             </SwiperSlide>
                         );
                     })}
