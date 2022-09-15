@@ -6,21 +6,26 @@ import { GetUserDataByKey } from '../../Services/LocalStorage';
 import usePlaylist from '../Playlist/playlist';
 import { db } from '../../db';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { Location } from 'history';
 
 const DashboardLayout = () => {
     const [message, setMessage] = useState('');
     const [inputValue, setInputValue] = useState('');
+    const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
     const myPlaylists = useLiveQuery(() => db.playlists.toArray());
     const [sidebarClassname, setSidebarClassname] = useState(true);
+    const [socket, setSocket] = useState<WebSocket | null>();
     // @ts-ignore
-    const location = useLocation();
-    let socket: WebSocket;
-
+    const location = useLocation<Location>();
     const { addPlaylist, setPlaylist, setActivePlaylist, setEditPlaylist, newPlaylist, setNewPlaylist } = usePlaylist();
 
     useEffect(() => {
         const uid = GetUserDataByKey('uid');
-        socket = new WebSocket('ws://localhost:5020/ws/' + uid);
+        setSocket(new WebSocket('ws://localhost:5020/ws/' + uid));
+    }, []);
+
+    useEffect(() => {
+        if (!socket) return;
         socket.onopen = () => {
             setMessage('Connected');
         };
@@ -31,19 +36,22 @@ const DashboardLayout = () => {
         return () => {
             socket.close();
         };
-    }, []);
+    }, [socket]);
 
     useEffect(() => {
-        const currentPath = location.pathname;
+        setCurrentLocation(location);
     }, [location]);
 
-    const handleClick = useCallback(
+    const sendMessage = useCallback(
         (e) => {
             e.preventDefault();
+
+            if (!socket) return;
+
             socket.send(
                 JSON.stringify({
                     EventName: 'message',
-                    message: inputValue,
+                    EventPayload: { message: inputValue, userID: GetUserDataByKey('uid') },
                 })
             );
         },
@@ -58,11 +66,10 @@ const DashboardLayout = () => {
         <div className={`container`}>
             <Topbar showLinks={true} />
             <div className={`row`}>
-                {/* <Sidebar /> */}
                 <div className="App">
                     <pre>Status: {message}</pre>
-                    {/* <input id="input" type="text" value={inputValue} onChange={handleChange} readOnly /> */}
-                    {/* <button onClick={handleClick}>Send Message To Server</button> */}
+                    {/* <input id="input" type="text" value={inputValue} onChange={handleChange} /> */}
+                    {/* <button onClick={sendMessage}>Send Message To Server</button> */}
                 </div>
                 <Outlet />
                 <div className={'bottombar'}>
@@ -75,6 +82,7 @@ const DashboardLayout = () => {
                         setActivePlaylist={setActivePlaylist}
                         sidebarClassname={sidebarClassname}
                         setPlaylist={setPlaylist}
+                        currentLocation={currentLocation}
                     />
                 </div>
             </div>
