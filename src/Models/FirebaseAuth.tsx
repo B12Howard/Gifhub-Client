@@ -7,6 +7,12 @@ export interface IFirebaseAuthResponse {
     localId: string;
     refreshToken: string;
     registered: boolean;
+    accessToken: string;
+    stsTokenManager: {
+        accessToken: string;
+        expirationTime: number | null;
+        refreshToken: string;
+    };
 }
 
 export class FirebaseAuthResponse implements IFirebaseAuthResponse {
@@ -18,6 +24,12 @@ export class FirebaseAuthResponse implements IFirebaseAuthResponse {
     localId: string = '';
     refreshToken: string = '';
     registered: boolean = false;
+    accessToken: string = '';
+    stsTokenManager = {
+        accessToken: '',
+        expirationTime: null,
+        refreshToken: '',
+    };
     constructor(params: Partial<IFirebaseAuthResponse>) {
         return Object.assign(this, params);
     }
