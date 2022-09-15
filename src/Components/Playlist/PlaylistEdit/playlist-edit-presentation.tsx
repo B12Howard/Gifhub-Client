@@ -1,10 +1,6 @@
 import usePlaylistEdit from './playlist-edit';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import PlaylistEditItem from './playlist-edit-item';
 import { IPlaylist } from '../../../Models/playlist';
-import { IPlaylistRecord } from '../../../Models/record';
 import Button from '../../../Shared/Components/button';
-import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './_playlist.scss';
 
