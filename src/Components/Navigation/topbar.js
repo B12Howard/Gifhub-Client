@@ -12,7 +12,7 @@ const Topbar = ({ showLinks }) => {
 
     const redirect = useCallback(
         (path) => {
-            navigate(path);
+            navigate(path, { replace: false });
         },
         [navigate]
     );
@@ -21,7 +21,7 @@ const Topbar = ({ showLinks }) => {
             className={'nav-override'}
             alignLinks="right"
             brand={
-                <a className="brand-override" onClick={() => navigate('/home/dashboard', { replace: true })}>
+                <a className="brand-override" onClick={() => navigate('/home/dashboard', { replace: false })}>
                     Gifhub
                 </a>
             }
@@ -43,33 +43,33 @@ const Topbar = ({ showLinks }) => {
                 <div className={'flex column'}>
                     <NavItem
                         className={`sidebar-list-item`}
-                        onClick={() => navigate('/home/dashboard', { replace: true })}
+                        onClick={() => navigate('/home/dashboard', { replace: false })}
                     >
                         Dashboard
                     </NavItem>
                     <NavItem
                         className={`sidebar-list-item`}
-                        onClick={() => navigate('/home/player', { replace: true })}
+                        onClick={() => navigate('/home/player', { replace: false })}
                     >
                         Player
                     </NavItem>
                     <NavItem
                         className={`sidebar-list-item`}
-                        onClick={() => navigate('/home/playlists', { replace: true })}
+                        onClick={() => navigate('/home/playlists', { replace: false })}
                     >
                         Playlists
                     </NavItem>
                     {GetUserToken() && (
                         <NavItem
                             className={`sidebar-list-item`}
-                            onClick={() => navigate('/members/gif-creator', { replace: true })}
+                            onClick={() => navigate('/members/gif-creator', { replace: false })}
                         >
                             Gif Creator
                         </NavItem>
                     )}
                     <NavItem
                         className={`sidebar-list-item`}
-                        onClick={() => navigate('/members/my-uploads', { replace: true })}
+                        onClick={() => navigate('/members/my-uploads', { replace: false })}
                     >
                         My Uploads
                     </NavItem>
