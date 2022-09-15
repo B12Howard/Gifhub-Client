@@ -1,11 +1,15 @@
 @import './_variables';
 
 body {
-    background-color: #f6f1ed;
+    background-attachment: fixed !important;
+    background: linear-gradient(to top right, #f6f1ed 10%, #fff2e8);
+    background-position: 100% 100%;
+    background-position-x: 100%;
+    background-position-y: 100%;
+    background-size: 100% auto;
 
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-        'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -142,6 +146,7 @@ button:focus {
 
 .sidenav {
     background-color: #810333 !important;
+    width: 100vw;
 }
 
 .burger {
