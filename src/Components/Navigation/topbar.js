@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
-import { Route, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './_navigation.scss';
 import M from 'materialize-css';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Navbar, NavItem, Icon } from 'react-materialize';
 import { LogoutService } from '../../Services/AuthenticationService';
+import { GetUserToken } from '../../Services/LocalStorage';
 
 const Topbar = ({ showLinks }) => {
     const navigate = useNavigate();
@@ -20,12 +21,12 @@ const Topbar = ({ showLinks }) => {
             className={'nav-override'}
             alignLinks="right"
             brand={
-                <a className="brand-override" onClick={() => navigate('/home', { replace: true })}>
+                <a className="brand-override" onClick={() => navigate('/home/dashboard', { replace: true })}>
                     Gifhub
                 </a>
             }
             id="mobile-nav"
-            menuIcon={<Icon>menu</Icon>}
+            menuIcon={<Icon className={`burger`}>menu</Icon>}
             options={{
                 draggable: true,
                 edge: 'left',
@@ -54,16 +55,18 @@ const Topbar = ({ showLinks }) => {
                     </NavItem>
                     <NavItem
                         className={`sidebar-list-item`}
-                        onClick={() => navigate('/home/playlist', { replace: true })}
+                        onClick={() => navigate('/home/playlists', { replace: true })}
                     >
                         Playlists
                     </NavItem>
-                    <NavItem
-                        className={`sidebar-list-item`}
-                        onClick={() => navigate('/members/gif-creator', { replace: true })}
-                    >
-                        Gif Creator
-                    </NavItem>
+                    {GetUserToken() && (
+                        <NavItem
+                            className={`sidebar-list-item`}
+                            onClick={() => navigate('/members/gif-creator', { replace: true })}
+                        >
+                            Gif Creator
+                        </NavItem>
+                    )}
                     <NavItem
                         className={`sidebar-list-item`}
                         onClick={() => navigate('/members/my-uploads', { replace: true })}
@@ -77,7 +80,7 @@ const Topbar = ({ showLinks }) => {
                             redirect('/auth/login');
                         }}
                     >
-                        Logout
+                        {GetUserToken() ? 'Logout' : 'Login'}
                     </NavItem>
                 </div>
             ) : null}
