@@ -16,7 +16,7 @@ const Login = () => {
     const navigate = useNavigate();
     const redirect = useCallback(
         (path) => {
-            navigate(path);
+            navigate(path, { replace: false });
         },
         [navigate]
     );

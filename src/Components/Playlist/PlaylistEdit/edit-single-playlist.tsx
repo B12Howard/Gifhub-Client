@@ -1,8 +1,8 @@
-import { useCallback } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useNavigate } from 'react-router-dom';
 import { IPlaylist } from '../../../Models/playlist';
 import { IPlaylistRecord } from '../../../Models/record';
+import Button from '../../../Shared/Components/button';
 import usePlaylistEdit from './playlist-edit';
 import PlaylistEditItem from './playlist-edit-item';
 
@@ -19,12 +19,8 @@ const EditSinglePlaylist = ({ editPlaylist, setEditPlaylist, setPlaylistForPlaye
             setEditPlaylist,
         });
     const navigate = useNavigate();
-    const redirect = useCallback(
-        (path) => {
-            navigate(path);
-        },
-        [navigate]
-    );
+
+    // TODO use useEffect to fetch playlist by id number if editPlaylist is false
 
     const setDuration = (index: number, duration: string) => {
         if (!playlistOrder) {
@@ -60,62 +56,52 @@ const EditSinglePlaylist = ({ editPlaylist, setEditPlaylist, setPlaylistForPlaye
         <div>
             <div
                 onClick={() => {
-                    navigate(`/home/playlists`, { replace: true });
+                    navigate(`/home/playlists`, { replace: false });
                 }}
             >
                 Back
             </div>
 
             {editPlaylist && (
-                <div>
+                <div className={`base-form-container`}>
                     <div>
                         <input type="text" value={url} onChange={(ev) => setUrl(ev.target.value)} />
                     </div>
-                    <div>
-                        <button
-                            onClick={() => {
-                                if (!editPlaylist) return;
-                                addGif(editPlaylist, url);
-                            }}
-                        >
-                            Add Gif
-                        </button>
-                        <button
-                            onClick={() => {
-                                if (!playlistOrder) return;
-                                saveOrder(playlistOrder, editPlaylist);
-                            }}
-                        >
-                            Save Changes
-                        </button>
-                        <button
-                            onClick={() => {
-                                setPlaylistForPlayer(editPlaylist.id);
-                                setEditPlaylist(undefined);
-                            }}
-                        >
-                            Show Preview
-                        </button>
+                    <div className={`flex  base-input-container`}>
+                        <div className={`button-container`}>
+                            <Button
+                                name={'Add Gif'}
+                                callback={() => {
+                                    if (!editPlaylist) return;
+                                    addGif(editPlaylist, url);
+                                }}
+                            />
+                        </div>
+                        <div className={`button-container`}>
+                            <Button
+                                name={'Save Changes'}
+                                callback={() => {
+                                    if (!playlistOrder) return;
+                                    saveOrder(playlistOrder, editPlaylist);
+                                }}
+                            />
+                        </div>
                     </div>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="preview-records">
                             {(provided) => (
                                 <div {...provided.droppableProps} ref={provided.innerRef}>
                                     {playlistOrder?.map((record: IPlaylistRecord, index: number) => (
-                                        <>
+                                        <div>
                                             <PlaylistEditItem
                                                 key={index}
                                                 record={record}
                                                 index={index}
                                                 deleteRecord={deleteRecord}
+                                                playlistOrder={playlistOrder}
+                                                setDuration={setDuration}
                                             />
-                                            <input
-                                                type="number"
-                                                min="0"
-                                                value={playlistOrder[index].duration}
-                                                onChange={(e) => setDuration(index, e.target.value)}
-                                            ></input>
-                                        </>
+                                        </div>
                                     ))}
                                     {provided.placeholder}
                                 </div>

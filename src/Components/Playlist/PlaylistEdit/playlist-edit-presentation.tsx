@@ -67,7 +67,7 @@ const PlaylistEditPresentation = ({
                                                 setEditPlaylist(playlist);
                                                 setActivePlaylist(playlist);
                                                 navigate(`/home/playlist/${playlist.id}/edit`, {
-                                                    replace: true,
+                                                    replace: false,
                                                 });
                                             }}
                                         >
