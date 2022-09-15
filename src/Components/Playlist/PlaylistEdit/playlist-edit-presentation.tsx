@@ -1,8 +1,8 @@
 import usePlaylistEdit from './playlist-edit';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import PlaylistEditItem from './playlist-edit-item';
 import { IPlaylist } from '../../../Models/playlist';
-import { IPlaylistRecord } from '../../../Models/record';
+import Button from '../../../Shared/Components/button';
+import { useNavigate } from 'react-router-dom';
+import './_playlist.scss';
 
 interface Props {
     playlist: IPlaylist | undefined;
@@ -10,6 +10,9 @@ interface Props {
     setEditPlaylist: any;
     setActivePlaylist: any;
     setPlaylistForPlayer: any;
+    newPlaylist: string;
+    setNewPlaylist: React.Dispatch<React.SetStateAction<string>>;
+    addPlaylist: any;
 }
 
 const PlaylistEditPresentation = ({
@@ -18,120 +21,65 @@ const PlaylistEditPresentation = ({
     setActivePlaylist,
     playlist,
     setPlaylistForPlayer,
+    newPlaylist,
+    setNewPlaylist,
+    addPlaylist,
 }: Props) => {
+    const navigate = useNavigate();
+
     const { addGif, url, setUrl, saveOrder, playlistOrder, setPlaylistOrder, deleteRecord, getPlaylists } =
         usePlaylistEdit({
-            playlist,
             editPlaylist,
             setEditPlaylist,
         });
 
-    const onDragEnd = ({ source, destination }: DropResult) => {
-        if (destination === undefined || destination === null) return null;
-        // Make sure we're actually moving the item
-        if (destination.index === source.index) return null;
-        // Move the item within the list
-        // Start by making a new list without the dragged item
-        if (!playlistOrder) return;
-
-        const newList = playlistOrder?.filter((_: any, idx: number) => idx !== source.index);
-        newList.splice(destination.index, 0, playlistOrder[source.index]);
-
-        setPlaylistOrder(newList);
-    };
-
-    const setDuration = (index: number, duration: string) => {
-        if (!playlistOrder) {
-            return;
-        }
-        const alteredplaylistOrder: IPlaylistRecord[] | undefined = [...playlistOrder];
-
-        if (playlistOrder) {
-            alteredplaylistOrder[index].duration = Number(duration);
-            const prop = index;
-
-            if (playlistOrder) {
-                setPlaylistOrder(alteredplaylistOrder);
-            }
-        }
-    };
-
     return (
         <>
-            <>
-                {getPlaylists()?.map((playlist: IPlaylist) => (
-                    <div>
-                        <li
-                            className={`playlist-list-item`}
-                            onClick={() => {
-                                setEditPlaylist(playlist);
-                                setActivePlaylist(playlist);
-                            }}
-                        >
-                            {playlist.name}
-                        </li>
-                    </div>
-                ))}
-            </>
+            <p>Add Playlist</p>
+            <div>
+                <input type="text" value={newPlaylist} onChange={(ev) => setNewPlaylist(ev.target.value)} />
+            </div>
+            <div>
+                <Button name={'Add Playlist'} callback={(val: any) => addPlaylist(newPlaylist)} />
+            </div>
+            <div>
+                <p>Playlists</p>
+            </div>
 
-            {editPlaylist && (
-                <div>
-                    <div>
-                        <input type="text" value={url} onChange={(ev) => setUrl(ev.target.value)} />
-                    </div>
-                    <div>
-                        <button
-                            onClick={() => {
-                                if (!editPlaylist) return;
-                                addGif(editPlaylist, url);
-                            }}
-                        >
-                            Add Gif
-                        </button>
-                        <button
-                            onClick={() => {
-                                if (!playlistOrder) return;
-                                saveOrder(playlistOrder, editPlaylist);
-                            }}
-                        >
-                            Save Changes
-                        </button>
-                        <button
-                            onClick={() => {
-                                setPlaylistForPlayer(editPlaylist.id);
-                                setEditPlaylist(undefined);
-                            }}
-                        >
-                            Show Preview
-                        </button>
-                    </div>
-                    <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="preview-records">
-                            {(provided) => (
-                                <div {...provided.droppableProps} ref={provided.innerRef}>
-                                    {playlistOrder?.map((record: IPlaylistRecord, index: number) => (
-                                        <>
-                                            <PlaylistEditItem
-                                                key={index}
-                                                record={record}
-                                                index={index}
-                                                deleteRecord={deleteRecord}
-                                            />
-                                            <input
-                                                type="number"
-                                                min="0"
-                                                value={playlistOrder[index].duration}
-                                                onChange={(e) => setDuration(index, e.target.value)}
-                                            ></input>
-                                        </>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    </DragDropContext>
-                </div>
-            )}
+            <>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Images</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {getPlaylists()
+                            ?.filter((playlist: IPlaylist) => playlist.name)
+                            ?.map((playlist: IPlaylist, idx) => {
+                                return (
+                                    <tr key={idx}>
+                                        <td
+                                            className={`playlist-list-item`}
+                                            onClick={() => {
+                                                setEditPlaylist(playlist);
+                                                setActivePlaylist(playlist);
+                                                navigate(`/home/playlist/${playlist.id}/edit`, {
+                                                    replace: true,
+                                                });
+                                            }}
+                                        >
+                                            <span>{playlist.name}</span>
+                                        </td>
+                                        <td>{playlist.record?.length}</td>
+                                    </tr>
+                                );
+                            })}
+                    </tbody>
+                </table>
+            </>
         </>
     );
 };

@@ -1,11 +1,15 @@
 @import './_variables';
 
 body {
-    background-color: #f6f1ed;
+    background-attachment: fixed !important;
+    background: linear-gradient(to top right, #f6f1ed 10%, #fff2e8);
+    background-position: 100% 100%;
+    background-position-x: 100%;
+    background-position-y: 100%;
+    background-size: 100% auto;
 
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-        'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -83,6 +87,17 @@ div .login-container {
 .flex {
     display: flex;
 }
+
+@media screen and (max-width: 991px) {
+    .flex {
+        display: flex;
+
+        &.column {
+            flex-direction: column;
+        }
+    }
+}
+
 .sidenav-overlay {
     z-index: -1 !important;
 }
@@ -94,4 +109,46 @@ div .login-container {
 .playlist-list-item {
     cursor: pointer;
     max-width: 10rem;
+}
+
+.sidenav-trigger {
+    z-index: 0 !important;
+}
+
+.btn {
+    background-color: #a3134a !important;
+    &:hover {
+        background-color: #b50146 !important;
+    }
+
+    &:focus {
+        background-color: #960145 !important;
+    }
+}
+
+button:focus {
+    background-color: #960145 !important;
+}
+
+.sidebar-list-item {
+    color: #810333;
+
+    &.light {
+        color: #f6f1ed;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .sidebar-list-item {
+        color: #f6f1ed;
+    }
+}
+
+.sidenav {
+    background-color: #810333 !important;
+    width: 100vw;
+}
+
+.burger {
+    color: #810333;
 }

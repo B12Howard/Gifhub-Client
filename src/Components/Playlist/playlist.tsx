@@ -42,6 +42,10 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
     }, [playlist]);
 
     async function addPlaylist(name: string) {
+        if (!name.length) {
+            return;
+        }
+
         try {
             const id = await db.playlists.add({
                 name,

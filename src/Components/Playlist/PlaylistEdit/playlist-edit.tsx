@@ -6,11 +6,10 @@ import { IPlaylistRecord, PlaylistRecord } from '../../../Models/record';
 
 interface Props {
     editPlaylist: IPlaylist | undefined;
-    playlist: IPlaylist | undefined;
     setEditPlaylist: any;
 }
 
-const usePlaylistEdit = ({ editPlaylist, setEditPlaylist, playlist }: Props) => {
+const usePlaylistEdit = ({ editPlaylist, setEditPlaylist }: Props) => {
     const [url, setUrl] = useState('');
     const [status, setStatus] = useState('');
     const [playlistOrder, setPlaylistOrder] = useState<IPlaylistRecord[] | undefined>(undefined);

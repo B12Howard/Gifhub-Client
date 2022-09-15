@@ -1,4 +1,5 @@
 import { IConvertPayloadDTO } from '../../Models/ConvertPayload';
+import { GetUserToken } from '../LocalStorage';
 import Domain from './Domain';
 
 /**
@@ -8,8 +9,7 @@ import Domain from './Domain';
  * @return {Promise}
  */
 export default function ConvertToGifService(payload: IConvertPayloadDTO) {
-    const token = localStorage.getItem('token');
-    console.log('ConvertToGifService', payload);
+    const token = GetUserToken();
     const options = {
         method: 'POST',
         headers: {
@@ -19,5 +19,5 @@ export default function ConvertToGifService(payload: IConvertPayloadDTO) {
         },
         body: JSON.stringify(payload),
     };
-    return fetch(Domain() + 'useConverter', options);
+    return fetch(Domain() + 'useConverter/convertVideoToGif', options);
 }

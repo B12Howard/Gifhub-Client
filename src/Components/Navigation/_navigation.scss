@@ -3,11 +3,14 @@
 }
 
 .nav-override {
-    background-color: #f1eae4;
+    background-color: transparent;
     color: #000;
 }
 .brand-logo {
     color: #222222 !important;
+}
+.brand-override {
+    cursor: pointer !important;
 }
 nav ul a {
     color: #222222 !important;

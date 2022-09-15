@@ -1,5 +1,6 @@
 import { IGifFileRes } from '../../Models/File/GifRes';
 import { IPaginationDTO } from '../../Models/Pagination';
+import { GetUserToken } from '../LocalStorage';
 import Domain from './Domain';
 
 /**
@@ -16,13 +17,12 @@ export default class FileService {
         this.headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json;charset=UTF-8',
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
+            Authorization: 'Bearer ' + GetUserToken(),
         };
         this.userEndpoint = 'getUser/getGifs';
     }
 
     GetGifsPagination(payload: IPaginationDTO<IGifFileRes>) {
-        console.log('ConvertToGifService', payload);
         const options = {
             method: 'POST',
             headers: this.headers,

@@ -2,7 +2,6 @@ import './_button.scss';
 
 const Button = ({ name, callback, disabled = false }) => {
     function createRipple(event) {
-        console.log('ripp');
         const button = event.currentTarget;
         const btnRect = button.getBoundingClientRect();
         const circle = document.createElement('span');
@@ -13,7 +12,6 @@ const Button = ({ name, callback, disabled = false }) => {
         circle.style.left = `${event.clientX - (btnRect.left + radius)}px`;
         circle.style.top = `${event.clientY - (btnRect.top + radius)}px`;
         circle.classList.add('ripple');
-        console.log('event.offsetX', event.offsetX);
         const ripple = button.getElementsByClassName('ripple')[0];
 
         if (ripple) {

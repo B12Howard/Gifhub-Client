@@ -14,7 +14,11 @@ const PlaylistEditItem = ({ record, index, deleteRecord }: Props) => {
                 <>
                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                         <span>{record.url}</span>
-                        <img className="edit-preview" src={record.url} alt="loading..." />
+                        <img
+                            className="edit-preview"
+                            src={record?.blob ? URL.createObjectURL(record?.blob) : record.url}
+                            alt="loading..."
+                        />
                         <button onClick={() => deleteRecord(index)}>X</button>
                     </div>
                 </>

@@ -5,6 +5,8 @@ import MyUploads from '../Components/GifCreator/my-uploads';
 import LoadingScreen from '../Components/loading-screen';
 import Login from '../Components/Login/login';
 import PlayerPresentation from '../Components/Player/player-presentation';
+import EditSinglePlaylist from '../Components/Playlist/PlaylistEdit/edit-single-playlist';
+import PlaylistEditPresentation from '../Components/Playlist/PlaylistEdit/playlist-edit-presentation';
 import LoginLayout from '../Components/views/login-layout';
 
 const Loadable = (Component: any) => (props: any) =>
@@ -16,9 +18,10 @@ const Loadable = (Component: any) => (props: any) =>
 
 const DashboardLayout = Loadable(lazy(() => import('../Components/views/dashboard-layout')));
 const Dashboard = Loadable(lazy(() => import('../Components/views/dashboard')));
-const PlaylistPresentation = Loadable(lazy(() => import('../Components/Playlist/playlist-presentation')));
+const PlaylistLayout = Loadable(lazy(() => import('../Components/Playlist/playlist-layout')));
 
 const AppRoutes = () => (
+    // TODo Private route on gif-cretor
     <Routes>
         <Route path="auth" element={<LoginLayout />}>
             <Route path="login" element={<Login />} />
@@ -27,7 +30,8 @@ const AppRoutes = () => (
         <Route path="home" element={<DashboardLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="player" element={<PlayerPresentation />} />
-            <Route path="playlist" element={<PlaylistPresentation />} />
+            <Route path="playlist/:id/edit" element={<PlaylistLayout mode={'edit'} />} />
+            <Route path="playlists" element={<PlaylistLayout mode={'list'} />} />
             <Route path="*" element={<DashboardLayout />} />
         </Route>
         <Route path="members" element={<DashboardLayout />}>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Select } from 'react-materialize';
 import { SqlDate } from '../../Models/Date';
@@ -6,74 +6,23 @@ import { IGifFileRes } from '../../Models/File/GifRes';
 import { IPaginationDTO, PaginationDTO } from '../../Models/Pagination';
 import FileService from '../../Services/Api/FileService';
 import Button from '../../Shared/Components/button';
-import DashboardTable from '../dashboard-table';
-
-// import axios from 'axios'
-
-const apiRes = [
-    {
-        name: 'Greg Webb',
-        allocation_id: 1,
-        order: 1,
-        portfolio_value: '$3247.31',
-        sectors_held: {
-            sector_name: ['Information Technology', 'Health Care', 'Financials'],
-            percentage: [0.2, 0.2, 0.3],
-        },
-        securities: { ticker: ['TWTR', 'SHOP', 'SQ'], percentage: [0.3, 0.6, 0.1] },
-    },
-    {
-        name: 'Greg Two',
-        allocation_id: 1,
-        order: 2,
-        portfolio_value: '$83834.46',
-        sectors_held: {
-            sector_name: ['Information Technology', 'Health Care', 'Financials'],
-            percentage: [0.03, 0.04, 0.2],
-        },
-        securities: { ticker: ['AET', 'JPM', 'C', 'GS', 'NVDA'], percentage: [0.2, 0.3, 0.1, 0.2, 0.2] },
-    },
-];
 
 const MyUploads = () => {
-    const [name, setName] = useState();
-    const [selectedSectionData, setSelectedSectionData] = useState();
-    const [selectedSectionData2, setSelectedSectionData2] = useState();
-    const [portfolios, setPortfolios] = useState();
-    const [selectedPortfolio, setSelectedPortfolio] = useState({});
     const [rowCount, setRowCount] = useState<number>();
     const [paginationRes, setPaginationRes] = useState<null | IPaginationDTO<IGifFileRes>>(new PaginationDTO({}));
     const [paginationCount, setPaginationCount] = useState<number>(0);
 
     useEffect(() => {
-        // setName('Howard');
-        // TODO use axios to fetch data from the server. Then use set states to inject the data into the charts
-        // const fetchData = async () => {
-        //     const payload = new PaginationDTO<IGifFileRes>({
-        //         rowCount: rowCount || 10,
-        //         lastId: null,
-        //         lastDate: null,
-        //     });
-
-        //     console.log('p', paginationRes);
-
-        //     console.log('payload, payload', payload);
-        //     return await new FileService().GetGifsPagination(payload);
-        // };
-
         fetchData().then((res) => {
             res.json().then((data) => {
                 if (data) {
-                    // setPortfolioIdx(0);
                     setPaginationRes(data);
-                    console.log('api res', data);
                 }
             });
         });
     }, []);
 
     const fetchData = async (payloadParam?: IPaginationDTO<IGifFileRes> | null, count?: number) => {
-        console.log('rowCount', rowCount);
         const payload =
             payloadParam ??
             new PaginationDTO<IGifFileRes>({
@@ -82,9 +31,6 @@ const MyUploads = () => {
                 lastDate: null,
             });
 
-        console.log('p', paginationRes);
-
-        console.log('payload, payload', payload);
         return await new FileService().GetGifsPagination(payload);
     };
 
@@ -108,13 +54,13 @@ const MyUploads = () => {
         fetchData(payload).then((res) => {
             res.json().then((data) => {
                 if (data) {
-                    // setPortfolioIdx(0);
                     setPaginationRes(data);
                 }
             });
         });
     };
 
+    // TODO add functionality
     const deleteFile = (index: number, payload: IGifFileRes) => {};
     const addToPlaylist = (index: number, payload: IGifFileRes) => {};
     const preview = (index: number, payload: IGifFileRes) => {};

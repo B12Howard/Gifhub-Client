@@ -15,31 +15,21 @@ interface Props {
     setEditPlaylist: any;
 }
 
-const slide_img = [
-    'https://swiperjs.com/demos/images/nature-1.jpg',
-    'https://swiperjs.com/demos/images/nature-2.jpg',
-    'https://swiperjs.com/demos/images/nature-3.jpg',
-    'https://swiperjs.com/demos/images/nature-4.jpg',
-    'https://swiperjs.com/demos/images/nature-5.jpg',
-    'https://swiperjs.com/demos/images/nature-6.jpg',
-    'https://swiperjs.com/demos/images/nature-7.jpg',
-    'https://swiperjs.com/demos/images/nature-8.jpg',
-    'https://swiperjs.com/demos/images/nature-9.jpg',
-];
-
 const PlayerPresentation = () => {
     // @ts-ignore
     const [context, dispatch] = useContext(Context);
     const [presentationActivePlaylist, setPresentationActivePlaylist] = useState<any>(null);
-
+    const [playlistName, setPlaylistName] = useState<string>('');
     useEffect(() => {
         if (context?.activePlaylist !== null && context?.activePlaylist !== undefined) {
+            setPlaylistName(context.activePlaylist.playlist?.name);
             setPresentationActivePlaylist(context.activePlaylist.playlist);
         }
     }, [context?.activePlaylist]);
 
     return (
         <>
+            Current Playlist: {playlistName}
             <Swiper
                 effect={'coverflow'}
                 grabCursor={true}
@@ -59,7 +49,11 @@ const PlayerPresentation = () => {
                     presentationActivePlaylist?.record?.map((record: any, i: number) => {
                         return (
                             <SwiperSlide key={i}>
-                                <img src={record?.blob ? URL.createObjectURL(record?.blob) : record.url} alt="" />
+                                <img
+                                    className={`gif-player-image`}
+                                    src={record?.blob ? URL.createObjectURL(record?.blob) : record.url}
+                                    alt=""
+                                />
                             </SwiperSlide>
                         );
                     })}
