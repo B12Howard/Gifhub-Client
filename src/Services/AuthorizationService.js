@@ -4,9 +4,10 @@
  * @return {{type: sting, status: bool}} key value pair
  */
 function isTokenValid() {
-    const token = localStorage.getItem('idToken');
+    let token = localStorage.getItem('idToken');
     const now = new Date().valueOf();
 
+    if (token === 'undefined') token = undefined;
     if (token !== undefined && token !== null && token !== '') {
         const tokenParts = token.split(/\./);
         const tokenDecoded = JSON.parse(window.atob(tokenParts[1]));

@@ -5,9 +5,8 @@ import MyUploads from '../Components/GifCreator/my-uploads';
 import LoadingScreen from '../Components/loading-screen';
 import Login from '../Components/Login/login';
 import PlayerPresentation from '../Components/Player/player-presentation';
-import EditSinglePlaylist from '../Components/Playlist/PlaylistEdit/edit-single-playlist';
-import PlaylistEditPresentation from '../Components/Playlist/PlaylistEdit/playlist-edit-presentation';
 import LoginLayout from '../Components/views/login-layout';
+import PrivateRoute from './AuthGuard';
 
 const Loadable = (Component: any) => (props: any) =>
     (
@@ -34,7 +33,14 @@ const AppRoutes = () => (
             <Route path="playlists" element={<PlaylistLayout mode={'list'} />} />
             <Route path="*" element={<DashboardLayout />} />
         </Route>
-        <Route path="members" element={<DashboardLayout />}>
+        <Route
+            path="members"
+            element={
+                <PrivateRoute>
+                    <DashboardLayout />
+                </PrivateRoute>
+            }
+        >
             <Route path="gif-creator" element={<GifCreator />} />
             <Route path="my-uploads" element={<MyUploads />} />
             <Route path="*" element={<GifCreator />} />
