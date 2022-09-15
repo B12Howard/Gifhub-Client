@@ -1,20 +1,19 @@
 import { useState } from 'react';
 import { GetUserDataByKey } from '../../Services/LocalStorage';
-import { useNavigate } from 'react-router-dom';
 import { ConvertPayloadDTO, IConvertPayloadDTO } from '../../Models/ConvertPayload';
 import ConvertToGifService from '../../Services/Api/ConverterService';
+import Button from '../../Shared/Components/button';
+// @ts-ignore
+import M from 'materialize-css/dist/js/materialize.min.js';
 
 const GifCreator = () => {
     const [mp4Url, setMp4Url] = useState<string>('');
     const [start, setStart] = useState<string>('');
     const [end, setEnd] = useState<string>('');
 
-    let navigate = useNavigate();
-
     const submit = async () => {
         if (!mp4Url || !start || !end) return;
         const uid = GetUserDataByKey('uid');
-        console.log('uid', uid);
         const payload: IConvertPayloadDTO = new ConvertPayloadDTO({
             video: mp4Url,
             start: start,
@@ -22,7 +21,14 @@ const GifCreator = () => {
             wsUserID: uid,
         });
         const res = await ConvertToGifService(payload);
-        console.log(res);
+
+        // TODO parse json for message
+        const message = await res.json();
+        M.toast({ html: res.statusText, displayLength: 3000 });
+    };
+
+    const validateDuration = () => {
+        // Length of the clip depends on the user type. Verify with server that the user is within bounds of the user type
     };
 
     return (
@@ -47,7 +53,7 @@ const GifCreator = () => {
                 <label htmlFor="end">Clip End Time</label>
             </div>
             <div>
-                <button onClick={submit}>Submit</button>
+                <Button name={'Submit'} callback={(val: any) => submit()} />
             </div>
         </>
     );
