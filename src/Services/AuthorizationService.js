@@ -4,7 +4,7 @@
  * @return {{type: sting, status: bool}} key value pair
  */
 function isTokenValid() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('idToken');
     const now = new Date().valueOf();
 
     if (token !== undefined && token !== null && token !== '') {
@@ -21,7 +21,6 @@ function isTokenValid() {
 
         // Valid token
         if (now < jwtDate) {
-            //console.log("valid token");
             return { type: 'normal', status: true };
         }
     } else {
