@@ -25,7 +25,7 @@ cd hello-world
 npm run build
 
 npm install netlify-cli -g
-netlify deploy
+netlify deploy --prod
 Or deploy a create-react-app site with Netlify Functions support with just 1 click:
 
 Step 2: Choose a new project
