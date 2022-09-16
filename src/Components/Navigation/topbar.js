@@ -67,12 +67,14 @@ const Topbar = ({ showLinks }) => {
                             Gif Creator
                         </NavItem>
                     )}
-                    <NavItem
-                        className={`sidebar-list-item`}
-                        onClick={() => navigate('/members/my-uploads', { replace: false })}
-                    >
-                        My Uploads
-                    </NavItem>
+                    {GetUserToken() && (
+                        <NavItem
+                            className={`sidebar-list-item`}
+                            onClick={() => navigate('/members/my-uploads', { replace: false })}
+                        >
+                            My Uploads
+                        </NavItem>
+                    )}
                     <NavItem
                         className={`sidebar-list-item`}
                         onClick={() => {
