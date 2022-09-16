@@ -68,7 +68,7 @@ const PlaylistEditPresentation = ({
                                 return (
                                     <tr key={idx}>
                                         <td
-                                            className={`playlist-list-item`}
+                                            className={`playlist-list-item fixed-5`}
                                             onClick={() => {
                                                 setEditPlaylist(playlist);
                                                 setActivePlaylist(playlist);
