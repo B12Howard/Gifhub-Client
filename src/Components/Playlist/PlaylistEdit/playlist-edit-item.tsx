@@ -3,6 +3,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { IPlaylistRecord } from '../../../Models/record';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { Button, Modal } from 'react-materialize';
 
 interface Props {
     record: IPlaylistRecord;
@@ -17,16 +18,51 @@ const PlaylistEditItem = ({ record, index, deleteRecord, playlistOrder, setDurat
         <Draggable draggableId={record.id + '' + index} index={index}>
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                    <div className={`flex`}>
+                    <div className={`flex top`}>
                         <img
                             className="edit-preview"
                             src={record?.blob ? URL.createObjectURL(record?.blob) : record.url}
                             alt="loading..."
                         />
-                        {/* TODO add modal to delete */}
-                        <button className={`delete-image`} onClick={() => deleteRecord(index)}>
-                            <FontAwesomeIcon icon={faTrashCan} />
-                        </button>
+
+                        <Modal
+                            actions={[
+                                <Button flat modal="close" node="button">
+                                    Cancel
+                                </Button>,
+                                <Button
+                                    flat
+                                    modal="close"
+                                    node="button"
+                                    onClick={() => {
+                                        deleteRecord(index);
+                                    }}
+                                >
+                                    Confirm
+                                </Button>,
+                            ]}
+                            fixedFooter={false}
+                            header="Confirm Delete"
+                            id="Modal-13"
+                            open={false}
+                            options={{
+                                dismissible: true,
+                                endingTop: '10%',
+                                inDuration: 250,
+
+                                opacity: 0.5,
+                                outDuration: 250,
+                                preventScrolling: true,
+                                startingTop: '4%',
+                            }}
+                            trigger={
+                                <button className={`delete-image`}>
+                                    <FontAwesomeIcon icon={faTrashCan} />
+                                </button>
+                            }
+                        >
+                            <span>Do you want to delete {record.url}?</span>
+                        </Modal>
                     </div>
                     <div>{record.url}</div>
 

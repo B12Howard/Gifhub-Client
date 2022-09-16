@@ -1,3 +1,5 @@
+import { faCircleLeft } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useNavigate } from 'react-router-dom';
 import { IPlaylist } from '../../../Models/playlist';
@@ -54,12 +56,15 @@ const EditSinglePlaylist = ({ editPlaylist, setEditPlaylist, setPlaylistForPlaye
 
     return (
         <div>
-            <div
-                onClick={() => {
-                    navigate(`/home/playlists`, { replace: false });
-                }}
-            >
-                Back
+            <div>
+                <button
+                    className={`back`}
+                    onClick={() => {
+                        navigate(`/home/playlists`, { replace: false });
+                    }}
+                >
+                    <FontAwesomeIcon size={'2x'} icon={faCircleLeft} />
+                </button>
             </div>
 
             {editPlaylist && (

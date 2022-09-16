@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from 'react';
 import { db, IFriend } from '../../db';
 import { IPlaylist } from '../../Models/playlist';
-import { PlaylistRecord } from '../../Models/record';
 import { Context } from '../../Store/Store';
+// @ts-ignore
+import M from 'materialize-css/dist/js/materialize.min.js';
 
 const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
     const [name, setName] = useState('');
@@ -41,12 +42,32 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
         }
     }, [playlist]);
 
+    async function getPlaylistForEdit(playlistId: number) {
+        if (!playlistId) {
+            return;
+        }
+        await db.playlists
+            .where('id')
+            .equals(playlistId)
+            .toArray()
+            .then((x) => {
+                if (!x.length) return;
+                setEditPlaylist(x[0]);
+            });
+    }
+
     async function addPlaylist(name: string) {
         if (!name.length) {
             return;
         }
 
         try {
+            const exists = (await db.playlists.where('name').equals(name).count()) > 0;
+
+            if (exists) {
+                M.toast({ html: `${name} already exists`, displayLength: 3000 });
+                return;
+            }
             const id = await db.playlists.add({
                 name,
                 record: [],
@@ -58,19 +79,16 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
         }
     }
 
-    async function addGif(playlist: IPlaylist, url: string) {
-        try {
-            if (!playlist.id) return;
-            if (!url) return;
+    async function deletePlaylist(playlist: IPlaylist) {
+        if (!playlist?.id) {
+            return;
+        }
 
-            const record = new PlaylistRecord(url);
-            db.playlists
-                .where('id')
-                .equals(playlist.id)
-                .modify((playlist: IPlaylist) => (playlist.record ? playlist.record.push(record) : null));
-            setUrl('');
+        try {
+            const deleted = await db.playlists.where('id').equals(playlist.id).delete();
+            M.toast({ html: `Playlist ${playlist.name} deleted`, displayLength: 3000 });
         } catch (error) {
-            setStatus(`Failed to add ${name}: ${error}`);
+            setStatus(`Failed to delete ${name}: ${error}`);
         }
     }
 
@@ -104,9 +122,9 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
         status,
         deleteFriend,
         addPlaylist,
+        deletePlaylist,
         setPlaylist,
         playlist,
-        addGif,
         url,
         setUrl,
         activePlaylist,
@@ -116,6 +134,7 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
         newPlaylist,
         setNewPlaylist,
         setPlaylistForPlayer,
+        getPlaylistForEdit,
     };
 };
 
