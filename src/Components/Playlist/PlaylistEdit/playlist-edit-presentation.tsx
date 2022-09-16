@@ -45,7 +45,13 @@ const PlaylistEditPresentation = ({
                 <input type="text" value={newPlaylist} onChange={(ev) => setNewPlaylist(ev.target.value)} />
             </div>
             <div>
-                <CustomButton name={'Add Playlist'} callback={(val: any) => addPlaylist(newPlaylist)} />
+                <CustomButton
+                    name={'Add Playlist'}
+                    callback={(val: any) => {
+                        addPlaylist(newPlaylist);
+                        setNewPlaylist('');
+                    }}
+                />
             </div>
             <div>
                 <p>Playlists</p>
