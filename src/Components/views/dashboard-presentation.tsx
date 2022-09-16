@@ -46,7 +46,7 @@ export const data = {
     ],
 };
 
-const Dashboard = () => {
+const DashboardPresentation = () => {
     return (
         <>
             <div className={``}>
@@ -59,4 +59,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default DashboardPresentation;
