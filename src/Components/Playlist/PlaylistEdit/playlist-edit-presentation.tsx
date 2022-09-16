@@ -1,8 +1,11 @@
 import usePlaylistEdit from './playlist-edit';
 import { IPlaylist } from '../../../Models/playlist';
-import Button from '../../../Shared/Components/button';
+import CustomButton from '../../../Shared/Components/button';
 import { useNavigate } from 'react-router-dom';
 import './_playlist.scss';
+import { Button, Modal } from 'react-materialize';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
     playlist: IPlaylist | undefined;
@@ -13,6 +16,7 @@ interface Props {
     newPlaylist: string;
     setNewPlaylist: React.Dispatch<React.SetStateAction<string>>;
     addPlaylist: any;
+    deletePlaylist: any;
 }
 
 const PlaylistEditPresentation = ({
@@ -24,6 +28,7 @@ const PlaylistEditPresentation = ({
     newPlaylist,
     setNewPlaylist,
     addPlaylist,
+    deletePlaylist,
 }: Props) => {
     const navigate = useNavigate();
 
@@ -40,7 +45,7 @@ const PlaylistEditPresentation = ({
                 <input type="text" value={newPlaylist} onChange={(ev) => setNewPlaylist(ev.target.value)} />
             </div>
             <div>
-                <Button name={'Add Playlist'} callback={(val: any) => addPlaylist(newPlaylist)} />
+                <CustomButton name={'Add Playlist'} callback={(val: any) => addPlaylist(newPlaylist)} />
             </div>
             <div>
                 <p>Playlists</p>
@@ -52,6 +57,7 @@ const PlaylistEditPresentation = ({
                         <tr>
                             <th>Name</th>
                             <th>Images</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
 
@@ -74,6 +80,46 @@ const PlaylistEditPresentation = ({
                                             <span>{playlist.name}</span>
                                         </td>
                                         <td>{playlist.record?.length}</td>
+                                        <td>
+                                            <Modal
+                                                actions={[
+                                                    <Button flat modal="close" node="button">
+                                                        Cancel
+                                                    </Button>,
+                                                    <Button
+                                                        flat
+                                                        modal="close"
+                                                        node="button"
+                                                        onClick={() => {
+                                                            deletePlaylist(playlist);
+                                                        }}
+                                                    >
+                                                        Confirm
+                                                    </Button>,
+                                                ]}
+                                                fixedFooter={false}
+                                                header="Confirm Delete"
+                                                id="Modal-11"
+                                                open={false}
+                                                options={{
+                                                    dismissible: true,
+                                                    endingTop: '10%',
+                                                    inDuration: 250,
+
+                                                    opacity: 0.5,
+                                                    outDuration: 250,
+                                                    preventScrolling: true,
+                                                    startingTop: '4%',
+                                                }}
+                                                trigger={
+                                                    <button className={`delete-image`}>
+                                                        <FontAwesomeIcon icon={faTrashCan} />
+                                                    </button>
+                                                }
+                                            >
+                                                <span>Do you want to delete {playlist.name}?</span>
+                                            </Modal>
+                                        </td>
                                     </tr>
                                 );
                             })}

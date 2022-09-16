@@ -29,7 +29,7 @@ const AppRoutes = () => (
         <Route path="home" element={<DashboardLayout />}>
             <Route path="dashboard" element={<DashboardPresentation />} />
             <Route path="player" element={<PlayerPresentation />} />
-            <Route path="playlist/:id/edit" element={<PlaylistLayout mode={'edit'} />} />
+            <Route path="playlist/:playlistId/edit" element={<PlaylistLayout mode={'edit'} />} />
             <Route path="playlists" element={<PlaylistLayout mode={'list'} />} />
             <Route path="*" element={<DashboardLayout />} />
         </Route>

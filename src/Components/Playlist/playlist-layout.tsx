@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import usePlaylist from './playlist';
 import EditSinglePlaylist from './PlaylistEdit/edit-single-playlist';
 import PlaylistEditPresentation from './PlaylistEdit/playlist-edit-presentation';
@@ -9,21 +10,31 @@ interface Props {
 
 const PlaylistLayout = ({ mode }: Props) => {
     const [displayMode, setDisplayMode] = useState<string>(mode);
-
-    useEffect(() => {
-        setDisplayMode(mode);
-    }, [mode]);
-
+    const [params, setParams] = useState<string>();
+    const { playlistId } = useParams();
     const {
         newPlaylist,
         setNewPlaylist,
         addPlaylist,
+        deletePlaylist,
         playlist,
         setActivePlaylist,
         editPlaylist,
         setEditPlaylist,
         setPlaylistForPlayer,
+        getPlaylistForEdit,
     } = usePlaylist();
+
+    useEffect(() => {
+        setDisplayMode(mode);
+    }, [mode]);
+
+    useEffect(() => {
+        setParams(playlistId);
+        if (mode === 'edit' && !editPlaylist && playlistId) {
+            getPlaylistForEdit(Number(playlistId));
+        }
+    }, [playlistId]);
 
     return (
         <>
@@ -38,6 +49,7 @@ const PlaylistLayout = ({ mode }: Props) => {
                         newPlaylist={newPlaylist}
                         setNewPlaylist={setNewPlaylist}
                         addPlaylist={addPlaylist}
+                        deletePlaylist={deletePlaylist}
                     />
                 </div>
             )}

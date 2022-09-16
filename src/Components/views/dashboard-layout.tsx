@@ -7,6 +7,8 @@ import usePlaylist from '../Playlist/playlist';
 import { db } from '../../db';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Location } from 'history';
+// @ts-ignore
+import M from 'materialize-css/dist/js/materialize.min.js';
 
 const DashboardLayout = () => {
     const [message, setMessage] = useState('');
@@ -30,7 +32,9 @@ const DashboardLayout = () => {
             setMessage('Connected');
         };
         socket.onmessage = (e) => {
+            const parsed = JSON.parse(e.data);
             setMessage('Get message from server: ' + e.data);
+            M.toast({ html: parsed.eventPayload.username + ': ' + parsed.eventPayload.message, displayLength: 3000 });
         };
 
         return () => {
@@ -67,9 +71,9 @@ const DashboardLayout = () => {
             <Topbar showLinks={true} />
             <div className={`row`}>
                 <div className="App">
-                    <pre>Status: {message}</pre>
-                    {/* <input id="input" type="text" value={inputValue} onChange={handleChange} /> */}
-                    {/* <button onClick={sendMessage}>Send Message To Server</button> */}
+                    {/* <pre>Status: {message}</pre>
+                    <input id="input" type="text" value={inputValue} onChange={handleChange} />
+                    <button onClick={sendMessage}>Send Message To Server</button> */}
                 </div>
                 <Outlet />
                 <div className={'bottombar'}>
