@@ -5,6 +5,7 @@ import ConvertToGifService from '../../Services/Api/ConverterService';
 import Button from '../../Shared/Components/button';
 // @ts-ignore
 import M from 'materialize-css/dist/js/materialize.min.js';
+import InputMask, { BeforeMaskedStateChangeStates } from 'react-input-mask';
 
 const GifCreator = () => {
     const [mp4Url, setMp4Url] = useState<string>('');
@@ -13,6 +14,9 @@ const GifCreator = () => {
 
     const submit = async () => {
         if (!mp4Url || !start || !end) return;
+
+        // TODO check clip time vs how much they are allowed per membership number
+
         const uid = GetUserDataByKey('uid');
         const payload: IConvertPayloadDTO = new ConvertPayloadDTO({
             video: mp4Url,
@@ -31,6 +35,26 @@ const GifCreator = () => {
         // Length of the clip depends on the user type. Verify with server that the user is within bounds of the user type
     };
 
+    const beforeMaskedStateChange = (newState: BeforeMaskedStateChangeStates) => {
+        var value = newState.nextState.value;
+        var selection = newState.nextState.selection;
+        // var cursorPosition = selection ? selection.start : null;
+
+        // // keep minus if entered by user
+        // if (value.endsWith('-') && userInput !== '-' && !this.state.value.endsWith('-')) {
+        //   if (cursorPosition === value.length) {
+        //     cursorPosition--;
+        //     selection = { start: cursorPosition, end: cursorPosition };
+        //   }
+        //   value = value.slice(0, -1);
+        // }
+
+        return {
+            value,
+            selection,
+        };
+    };
+
     return (
         <>
             <div>
@@ -45,11 +69,18 @@ const GifCreator = () => {
                 <label htmlFor="email">MP4 URL</label>
             </div>
             <div>
-                <input id="start" name="start" type="text" value={start} onChange={(ev) => setStart(ev.target.value)} />
+                <InputMask
+                    mask="99:99:99"
+                    value={start}
+                    onChange={(ev) => setStart(ev.target.value)}
+                    beforeMaskedStateChange={(states: BeforeMaskedStateChangeStates) => beforeMaskedStateChange(states)}
+                />
+                {/* <input id="start" name="start" type="text" value={start} onChange={(ev) => setStart(ev.target.value)} /> */}
                 <label htmlFor="start">Clip Start Time</label>
             </div>
             <div>
-                <input id="end" name="end" type="text" value={end} onChange={(ev) => setEnd(ev.target.value)} />
+                <InputMask mask="99:99:99" value={end} onChange={(ev) => setEnd(ev.target.value)} />
+
                 <label htmlFor="end">Clip End Time</label>
             </div>
             <div>
