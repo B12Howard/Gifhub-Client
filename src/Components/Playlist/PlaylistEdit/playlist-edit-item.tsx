@@ -14,6 +14,14 @@ interface Props {
 }
 
 const PlaylistEditItem = ({ record, index, deleteRecord, playlistOrder, setDuration }: Props) => {
+    const prepareObjectUrl = (blob: Blob): string => {
+        try {
+            return URL.createObjectURL(blob);
+        } catch (error) {
+            return '';
+        }
+    };
+
     return (
         <Draggable draggableId={record.id + '' + index} index={index}>
             {(provided) => (
@@ -21,7 +29,7 @@ const PlaylistEditItem = ({ record, index, deleteRecord, playlistOrder, setDurat
                     <div className={`flex top`}>
                         <img
                             className="edit-preview"
-                            src={record?.blob ? URL.createObjectURL(record?.blob) : record.url}
+                            src={record?.blob?.size ? prepareObjectUrl(record.blob) : record.url}
                             alt="loading..."
                         />
 
@@ -56,7 +64,7 @@ const PlaylistEditItem = ({ record, index, deleteRecord, playlistOrder, setDurat
                                 startingTop: '4%',
                             }}
                             trigger={
-                                <button className={`delete-image`}>
+                                <button className={`action-button`}>
                                     <FontAwesomeIcon icon={faTrashCan} />
                                 </button>
                             }

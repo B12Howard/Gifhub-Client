@@ -118,7 +118,7 @@ const PlaylistEditPresentation = ({
                                                     startingTop: '4%',
                                                 }}
                                                 trigger={
-                                                    <button className={`delete-image`}>
+                                                    <button className={`action-button`}>
                                                         <FontAwesomeIcon icon={faTrashCan} />
                                                     </button>
                                                 }
