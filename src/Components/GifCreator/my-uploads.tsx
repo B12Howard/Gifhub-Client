@@ -1,19 +1,45 @@
+import { faPlusSquare, faTrashCan, faEye } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Select } from 'react-materialize';
-import { SqlDate } from '../../Models/Date';
-import { IGifFileRes } from '../../Models/File/GifRes';
-import { IPaginationDTO, PaginationDTO } from '../../Models/Pagination';
-import FileService from '../../Services/Api/FileService';
-import Button from '../../Shared/Components/button';
+import { Button, Modal, Select } from 'react-materialize';
+import { IPlaylist } from '../../Models/playlist';
+import CustomButton from '../../Shared/Components/button';
+import usePlaylistEdit from '../Playlist/PlaylistEdit/playlist-edit';
+import useGif from './gif-smart';
+import 'materialize-css/dist/css/materialize.min.css';
+// @ts-ignore
+import M from 'materialize-css';
+import usePlaylist from '../Playlist/playlist';
 
 const MyUploads = () => {
-    const [rowCount, setRowCount] = useState<number>();
-    const [paginationRes, setPaginationRes] = useState<null | IPaginationDTO<IGifFileRes>>(new PaginationDTO({}));
-    const [paginationCount, setPaginationCount] = useState<number>(0);
+    const {
+        completeGetSignedUrl,
+        getSignedUrl,
+        previewUrl,
+        setPreviewUrl,
+        rowCount,
+        setRowCount,
+        paginationCount,
+        paginationRes,
+        setPaginationRes,
+        deleteGifById,
+        getGifsPagination,
+        paginationNext,
+        paginationPrev,
+    } = useGif();
+
+    const { saveOrder, targetPlaylist, setTargetPlaylist, getPlaylists, addGif, playlistOrder, addGifFromUploads } =
+        usePlaylistEdit({
+            editPlaylist: undefined,
+            setEditPlaylist: null,
+        });
+
+    const { getPlaylistForEdit, editPlaylist, setEditPlaylist } = usePlaylist();
+    const [localTargetPlaylistObj, setLocalTargetPlaylistObj] = useState<IPlaylist | null | undefined>();
 
     useEffect(() => {
-        fetchData().then((res) => {
+        getGifsPagination().then((res) => {
             res.json().then((data) => {
                 if (data) {
                     setPaginationRes(data);
@@ -22,36 +48,28 @@ const MyUploads = () => {
         });
     }, []);
 
-    const fetchData = async (payloadParam?: IPaginationDTO<IGifFileRes> | null, count?: number) => {
-        const payload =
-            payloadParam ??
-            new PaginationDTO<IGifFileRes>({
-                rowCount: count || rowCount || 10,
-                lastId: null,
-                lastDate: null,
-            });
+    const playlistList = getPlaylists()
+        ?.filter((playlist: IPlaylist) => playlist.name)
+        ?.map((playlist: IPlaylist, idx) => {
+            if (idx === 0) {
+                return (
+                    <>
+                        <option value=""></option>
+                        <option key={idx} value={JSON.stringify(playlist)}>
+                            {playlist.name}
+                        </option>
+                    </>
+                );
+            }
+            return (
+                <option key={idx} value={JSON.stringify(playlist)}>
+                    {playlist.name}
+                </option>
+            );
+        }, this);
 
-        return await new FileService().GetGifsPagination(payload);
-    };
-
-    const fetchPagination = (isNext: boolean) => {
-        const currentPaginationRes = paginationRes;
-        const lastEl = currentPaginationRes?.records?.length
-            ? currentPaginationRes?.records[currentPaginationRes?.records?.length - 1]
-            : null;
-        const payload = new PaginationDTO<IGifFileRes>({
-            rowCount: rowCount || 10,
-            lastId: currentPaginationRes?.lastId || null,
-            lastDate: currentPaginationRes?.lastDate
-                ? new SqlDate({
-                      Time: lastEl?.createdat?.Time ?? null,
-                      Valid: lastEl?.createdat?.Valid ?? null,
-                  })
-                : null,
-            next: isNext,
-        });
-
-        fetchData(payload).then((res) => {
+    const refreshPagination = (count: number = 10) => {
+        getGifsPagination(null, count, rowCount).then((res) => {
             res.json().then((data) => {
                 if (data) {
                     setPaginationRes(data);
@@ -60,29 +78,28 @@ const MyUploads = () => {
         });
     };
 
-    // TODO add functionality
-    const deleteFile = (index: number, payload: IGifFileRes) => {};
-    const addToPlaylist = (index: number, payload: IGifFileRes) => {};
-    const preview = (index: number, payload: IGifFileRes) => {};
+    const deleteGif = async (gifId: number | undefined) => {
+        if (!gifId) return;
 
-    const paginationNext = () => {
-        fetchPagination(true);
-        setPaginationCount(paginationCount + 1);
+        const deleteRes = await deleteGifById(gifId);
+
+        if (deleteRes?.status && deleteRes?.status >= 200 && deleteRes.status < 300) {
+            refreshPagination(rowCount);
+        }
     };
 
-    const paginationPrev = () => {
-        fetchPagination(false);
-        setPaginationCount(paginationCount - 1);
-    };
+    const addGifUploadToPlaylist = async (url: string) => {
+        if (!localTargetPlaylistObj) return;
+        const signedUrl = await completeGetSignedUrl(url).catch(alert);
+        const imageUrl = signedUrl?.authenticatedUrl && signedUrl.authenticatedUrl;
 
-    const refreshPagination = (count: number) => {
-        fetchData(null, count).then((res) => {
-            res.json().then((data) => {
-                if (data) {
-                    setPaginationRes(data);
-                }
-            });
-        });
+        if (!localTargetPlaylistObj || !imageUrl) return;
+
+        await addGifFromUploads(localTargetPlaylistObj, imageUrl);
+
+        setTargetPlaylist(null);
+        setPreviewUrl('');
+        setEditPlaylist(undefined);
     };
 
     return (
@@ -94,23 +111,200 @@ const MyUploads = () => {
             </div>
             <div className={`col-md-6 mb-5`}>My Remote Files</div>
 
-            {paginationRes?.records?.map((record, index) => {
-                return (
-                    <div key={index} className={`flex`}>
-                        <div>{'URL: ' + record.url}</div>
-                        <div>{'Created At: ' + record.createdat?.Time}</div>
-                        <div>
-                            <button>Delete</button>
-                        </div>
-                        <div>
-                            <button>Add To Playlist</button>
-                        </div>
-                        <div>
-                            <button>Preview</button>
-                        </div>
-                    </div>
-                );
-            })}
+            <table>
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {paginationRes?.records?.map((record, index) => {
+                        return (
+                            <tr key={index}>
+                                <td>
+                                    <span>{record.url}</span>
+                                </td>
+                                <td>{record.created_at?.Time}</td>
+                                <td>
+                                    <div className={`flex`}>
+                                        <div>
+                                            <Modal
+                                                actions={[
+                                                    <Button flat modal="close" node="button">
+                                                        Cancel
+                                                    </Button>,
+                                                    <Button
+                                                        flat
+                                                        modal="close"
+                                                        node="button"
+                                                        onClick={() => {
+                                                            addGifUploadToPlaylist(record.url);
+                                                        }}
+                                                    >
+                                                        Confirm
+                                                    </Button>,
+                                                ]}
+                                                fixedFooter={false}
+                                                header="Add to Playlist"
+                                                id="Modal-16"
+                                                open={false}
+                                                options={{
+                                                    dismissible: true,
+                                                    endingTop: '10%',
+                                                    inDuration: 250,
+
+                                                    opacity: 0.5,
+                                                    outDuration: 250,
+                                                    preventScrolling: true,
+                                                    startingTop: '4%',
+                                                }}
+                                                trigger={
+                                                    <button className={`action-button`}>
+                                                        <FontAwesomeIcon icon={faPlusSquare} />
+                                                    </button>
+                                                }
+                                            >
+                                                <div>
+                                                    <Select
+                                                        id="Select-31"
+                                                        multiple={false}
+                                                        onChange={(e) =>
+                                                            setLocalTargetPlaylistObj(JSON.parse(e.target.value))
+                                                        }
+                                                        options={{
+                                                            classes: '',
+                                                            dropdownOptions: {
+                                                                alignment: 'left',
+                                                                autoTrigger: true,
+                                                                closeOnClick: true,
+                                                                constrainWidth: true,
+                                                                coverTrigger: true,
+                                                                hover: false,
+                                                                inDuration: 150,
+                                                                onCloseEnd: () => {
+                                                                    // setTargetPlaylist(null);
+                                                                    setPreviewUrl('');
+                                                                },
+                                                                //   onCloseStart: null,
+                                                                //   onOpenEnd: null,
+                                                                onOpenStart: () => {
+                                                                    // document.getElementById('Select-31')?.nodeValue
+                                                                    //     ? (document.getElementById(
+                                                                    //           'Select-31'
+                                                                    //       ).nodeValue = null)
+                                                                    //     : null;
+                                                                    // setTargetPlaylist(this.);
+                                                                    // setPreviewUrl('');
+                                                                },
+                                                                outDuration: 250,
+                                                            },
+                                                        }}
+                                                        value=""
+                                                    >
+                                                        {playlistList}
+                                                    </Select>
+                                                </div>
+                                            </Modal>
+                                        </div>
+                                        <div>
+                                            <Modal
+                                                actions={[
+                                                    <Button
+                                                        flat
+                                                        modal="close"
+                                                        node="button"
+                                                        // onClick={() => setPreviewUrl('')}
+                                                    >
+                                                        Close
+                                                    </Button>,
+                                                ]}
+                                                fixedFooter={false}
+                                                header="Preview"
+                                                id="Modal-13"
+                                                open={false}
+                                                options={{
+                                                    dismissible: true,
+                                                    endingTop: '10%',
+                                                    inDuration: 250,
+
+                                                    opacity: 0.5,
+                                                    outDuration: 250,
+                                                    preventScrolling: true,
+                                                    startingTop: '4%',
+                                                }}
+                                                trigger={
+                                                    <button className={`action-button`}>
+                                                        <FontAwesomeIcon
+                                                            icon={faEye}
+                                                            onClick={() => getSignedUrl(record.url)}
+                                                        />
+                                                    </button>
+                                                }
+                                            >
+                                                <div className={'preview-modal'}>
+                                                    View Gif Here
+                                                    <div>
+                                                        {previewUrl && (
+                                                            <img
+                                                                className="uploaded-file-preview"
+                                                                src={previewUrl}
+                                                                alt="loading..."
+                                                            />
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                {/* put dropdown here and button to add to playlist */}
+                                                {/* put trash to delete, opens modal */}
+                                            </Modal>
+                                        </div>
+                                        <Modal
+                                            actions={[
+                                                <Button flat modal="close" node="button">
+                                                    Cancel
+                                                </Button>,
+                                                <Button
+                                                    flat
+                                                    modal="close"
+                                                    node="button"
+                                                    onClick={() => {
+                                                        deleteGif(record?.id);
+                                                    }}
+                                                >
+                                                    Confirm
+                                                </Button>,
+                                            ]}
+                                            fixedFooter={false}
+                                            header="Confirm Delete"
+                                            id="Modal-11"
+                                            open={false}
+                                            options={{
+                                                dismissible: true,
+                                                endingTop: '10%',
+                                                inDuration: 250,
+
+                                                opacity: 0.5,
+                                                outDuration: 250,
+                                                preventScrolling: true,
+                                                startingTop: '4%',
+                                            }}
+                                            trigger={
+                                                <button className={`action-button`}>
+                                                    <FontAwesomeIcon icon={faTrashCan} />
+                                                </button>
+                                            }
+                                        >
+                                            <span>Do you want to delete {record.url}?</span>
+                                        </Modal>
+                                    </div>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
 
             <div>
                 My Files
@@ -129,14 +323,10 @@ const MyUploads = () => {
                         <option value="100">100</option>
                     </Select>
                 </div>
-                <div>
-                    <label htmlFor="name"></label>
-                    <textarea id="name" name="name" />
-                </div>
                 <div className="flex">
-                    <Button name={'◀'} callback={() => paginationPrev()} disabled={paginationCount === 0} />
+                    <CustomButton name={'◀'} callback={() => paginationPrev()} disabled={paginationCount === 0} />
 
-                    <Button name={'▶'} callback={() => paginationNext()} />
+                    <CustomButton name={'▶'} callback={() => paginationNext()} />
                 </div>
             </div>
         </>
