@@ -28,6 +28,10 @@ code {
     width: 100px;
     height: 100px;
 }
+.uploaded-file-preview {
+    width: 100%;
+    height: auto;
+}
 .player-item {
     max-width: 80vw;
 }
@@ -58,6 +62,9 @@ code {
 }
 .container {
     width: 98% !important;
+    height: 100vh !important;
+    background-size: cover;
+    background-image: $bgColor, url('../src/Assets/antenna-jqh0GEvuNBY-unsplash-min.jpeg');
 }
 
 div .base-form-container {
@@ -170,7 +177,7 @@ button:focus {
     margin-right: 10px;
 }
 
-button.delete-image {
+button.action-button {
     cursor: pointer;
     background: none !important;
     border: none;
@@ -215,4 +222,12 @@ button.back {
         flex-grow: 1 !important;
         text-align: center !important;
     }
+}
+
+.preview-modal {
+    height: 59vh;
+}
+
+.modal {
+    max-height: 80vh !important;
 }
