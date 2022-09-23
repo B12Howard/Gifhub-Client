@@ -39,53 +39,48 @@ const Topbar = ({ showLinks }) => {
                 preventScrolling: true,
             }}
         >
-            {showLinks ? (
-                <div className={'flex column'}>
+            <div className={'flex column'}>
+                <NavItem
+                    className={`sidebar-list-item`}
+                    onClick={() => navigate('/home/dashboard', { replace: false })}
+                >
+                    Dashboard
+                </NavItem>
+                <NavItem className={`sidebar-list-item`} onClick={() => navigate('/home/player', { replace: false })}>
+                    Player
+                </NavItem>
+                <NavItem
+                    className={`sidebar-list-item`}
+                    onClick={() => navigate('/home/playlists', { replace: false })}
+                >
+                    Playlists
+                </NavItem>
+                {GetUserToken() && (
                     <NavItem
                         className={`sidebar-list-item`}
-                        onClick={() => navigate('/home/dashboard', { replace: false })}
+                        onClick={() => navigate('/members/gif-creator', { replace: false })}
                     >
-                        Dashboard
+                        Gif Creator
                     </NavItem>
+                )}
+                {GetUserToken() && (
                     <NavItem
                         className={`sidebar-list-item`}
-                        onClick={() => navigate('/home/player', { replace: false })}
+                        onClick={() => navigate('/members/my-uploads', { replace: false })}
                     >
-                        Player
+                        My Uploads
                     </NavItem>
-                    <NavItem
-                        className={`sidebar-list-item`}
-                        onClick={() => navigate('/home/playlists', { replace: false })}
-                    >
-                        Playlists
-                    </NavItem>
-                    {GetUserToken() && (
-                        <NavItem
-                            className={`sidebar-list-item`}
-                            onClick={() => navigate('/members/gif-creator', { replace: false })}
-                        >
-                            Gif Creator
-                        </NavItem>
-                    )}
-                    {GetUserToken() && (
-                        <NavItem
-                            className={`sidebar-list-item`}
-                            onClick={() => navigate('/members/my-uploads', { replace: false })}
-                        >
-                            My Uploads
-                        </NavItem>
-                    )}
-                    <NavItem
-                        className={`sidebar-list-item`}
-                        onClick={() => {
-                            LogoutService();
-                            redirect('/auth/login');
-                        }}
-                    >
-                        {GetUserToken() ? 'Logout' : 'Login'}
-                    </NavItem>
-                </div>
-            ) : null}
+                )}
+                <NavItem
+                    className={`sidebar-list-item`}
+                    onClick={() => {
+                        LogoutService();
+                        redirect('/auth/login');
+                    }}
+                >
+                    {GetUserToken() ? 'Logout' : 'Login'}
+                </NavItem>
+            </div>
         </Navbar>
     );
 };
