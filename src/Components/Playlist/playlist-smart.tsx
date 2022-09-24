@@ -3,7 +3,7 @@ import { db, IFriend } from '../../db';
 import { IPlaylist } from '../../Models/playlist';
 import { Context } from '../../Store/Store';
 // @ts-ignore
-import M from 'materialize-css/dist/js/materialize.min.js';
+import { toast } from 'materialize-css/dist/js/materialize.min.js';
 
 const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
     const [name, setName] = useState('');
@@ -65,7 +65,7 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
             const exists = (await db.playlists.where('name').equals(name).count()) > 0;
 
             if (exists) {
-                M.toast({ html: `${name} already exists`, displayLength: 3000 });
+                toast({ html: `${name} already exists`, displayLength: 3000 });
                 return;
             }
             const id = await db.playlists.add({
@@ -86,7 +86,7 @@ const usePlaylist = ({ defaultAge } = { defaultAge: 21 }) => {
 
         try {
             const deleted = await db.playlists.where('id').equals(playlist.id).delete();
-            M.toast({ html: `Playlist ${playlist.name} deleted`, displayLength: 3000 });
+            toast({ html: `Playlist ${playlist.name} deleted`, displayLength: 3000 });
         } catch (error) {
             setStatus(`Failed to delete ${name}: ${error}`);
         }
