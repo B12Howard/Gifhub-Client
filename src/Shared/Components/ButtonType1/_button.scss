@@ -10,8 +10,8 @@ div > .button-container {
 
     .floating-button {
         box-shadow: 2.5px 2.5px 1.25px $primary4;
-        color: $secondary1;
-        font-size: 18px;
+        color: $primary1;
+        font-size: 1.2rem;
     }
 
     button {
@@ -19,28 +19,27 @@ div > .button-container {
         position: relative;
         overflow: hidden;
         transition: background 400ms;
-        color: $secondary1;
-        background-color: $primary1;
+        color: $primary1;
+        background-color: $secondary1;
         padding: 1rem 2rem;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         outline: 0;
         border: 0;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
         cursor: pointer;
 
         &:focus {
-            background-color: $primary1 !important;
+            background-color: $secondary1 !important;
         }
 
         &:active {
-            background-color: $primary2 !important;
+            background-color: $secondary1 !important;
             box-shadow: none !important;
             outline: 0;
         }
 
         &:hover:not(:active) {
-            background-color: $primary3 !important;
+            background-color: $secondary1 !important;
         }
     }
 
@@ -58,6 +57,12 @@ div > .button-container {
         to {
             transform: scale(4);
             opacity: 0;
+        }
+    }
+
+    @media only screen and (max-width: $small) {
+        .floating-button {
+            width: 100%;
         }
     }
 }
