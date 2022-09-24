@@ -108,7 +108,6 @@ const DashboardLayout = () => {
         >
             <Topbar showLinks={true} />
             <div className={`row`}>
-                <div className="App"></div>
                 <Outlet />
                 <div className={'bottombar'}>
                     <Bottombar
