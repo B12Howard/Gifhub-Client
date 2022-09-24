@@ -48,7 +48,7 @@ const Login = () => {
     };
 
     return (
-        <div className={`flex`}>
+        <div className={`login-body`}>
             <div className="login-container">
                 <div className="login-input-container">
                     <input
@@ -71,13 +71,28 @@ const Login = () => {
                     <label htmlFor="pass">Password</label>
                 </div>
                 <div>
-                    <Button name={'Submit'} callback={(val: any) => submit()} />
+                    <Button name={'Sign In'} callback={(val: any) => submit()} />
                 </div>
 
                 {error ? <div>{error}</div> : null}
             </div>
-            <div>
-                blurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurb
+            <div className={`login-article`}>
+                <p>
+                    Without an account you can save gifs in playlists and view them on your phone! How? If the gif
+                    source allows it, GifHub will save the gif locally for offline viewing. Otherwise you will need an
+                    internet connection to view your playlists.
+                </p>
+                <p>
+                    With an account you have access to Gif Creator where you can clip mp4s from a url source and convert
+                    them to gifs at 1024p max. Files are saved for one day. And you can save these to your playlists for
+                    offline viewing.
+                </p>
+                <p>
+                    Technical Stuff: Uploads are saved to a cloud storage provider and are deleted automatically after
+                    24 hours. Gif Creator and My Uploads are hosted on AWS EC2 instances and they cost money, no
+                    suprise. So this service will have an up time of only a couple hours a day. You'll know when the
+                    status light is green.
+                </p>
             </div>
         </div>
     );

@@ -9,7 +9,9 @@ body {
     background-position-x: 100%;
     background-position-y: 100%;
     background-size: 100% auto;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 1.2rem;
+    // font-family: 'Montserrat', sans-serif;
 
     margin: 0;
 
@@ -29,7 +31,38 @@ code {
 }
 .login-body {
     display: flex;
+    overflow-x: hidden;
 }
+.login-article {
+    inline-size: 40%;
+    overflow-wrap: break-word;
+}
+
+div .login-container {
+    padding: 5rem;
+
+    width: 50%;
+    min-width: 350px;
+    margin-right: 2.5%;
+    > .login-input-container {
+        @extend .base-form-container;
+    }
+    @media only screen and (max-width: $small) {
+        width: 100%;
+        min-width: 250px;
+    }
+}
+
+@media screen and (max-width: $small) {
+    .login-body {
+        flex-direction: column;
+    }
+
+    .login-article {
+        inline-size: 98%;
+    }
+}
+
 .edit-preview {
     width: 100px;
     height: 100px;
@@ -64,21 +97,6 @@ div .base-form-container {
     }
 }
 
-div .login-container {
-    @extend .base-form-container;
-    width: 25%;
-    min-width: 350px;
-
-    @media only screen and (max-width: $small) {
-        width: 100%;
-        min-width: 250px;
-    }
-
-    > .login-input-container {
-        @extend .base-input-container;
-    }
-}
-
 .flex {
     display: flex;
     &.top {
@@ -86,17 +104,13 @@ div .login-container {
     }
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: $small) {
     .flex {
         display: flex;
 
         &.column {
             flex-direction: column;
         }
-    }
-
-    .login-body {
-        flex-direction: column;
     }
 }
 
@@ -134,7 +148,7 @@ button:focus {
     color: black;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: $small) {
 }
 
 .burger {
@@ -236,6 +250,10 @@ button.back {
 .text-2 {
     font-family: 'Gilda Display', serif;
 }
+.text-3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+}
 
 .action-button-container {
     display: relative;
@@ -252,4 +270,8 @@ button.back {
 }
 .close-control-button {
     background: $secondary1;
+}
+
+input {
+    font-size: 1.3rem !important;
 }
