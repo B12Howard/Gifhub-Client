@@ -79,11 +79,11 @@ const Bottombar = ({ myPlaylists, setPlaylist, currentLocation, playlist, setClo
 
     return !hideBottomBar ? (
         <div className={`action-button-container`}>
-            <div className={`open-button`} style={{ zIndex: `${!opened ? 15000 : -111}` }}>
+            <div className={`open-button`} style={{ zIndex: `${!opened ? 15000 : 14000}` }}>
                 {getPlayerButtonAction()}
             </div>
 
-            <div className={`close-button`} style={{ zIndex: `${opened ? 15000 : -111}` }}>
+            <div className={`close-button`} style={{ zIndex: `${opened ? 15000 : 14000}` }}>
                 <Button
                     className="close-control-button"
                     onClick={(e: any) => {
