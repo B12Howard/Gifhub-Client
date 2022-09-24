@@ -12,6 +12,7 @@ import Domain from './Domain';
 export default class FileService {
     public headers = {};
     public userEndpoint = '';
+    public fileEndpoint = '';
 
     constructor() {
         this.headers = {
@@ -19,7 +20,8 @@ export default class FileService {
             'Content-Type': 'application/json;charset=UTF-8',
             Authorization: 'Bearer ' + GetUserToken(),
         };
-        this.userEndpoint = 'getUser/getGifs';
+        this.userEndpoint = `${Domain()}getUser`;
+        this.fileEndpoint = `${Domain()}getSignedUrlGif`;
     }
 
     GetGifsPagination(payload: IPaginationDTO<IGifFileRes>) {
@@ -28,6 +30,24 @@ export default class FileService {
             headers: this.headers,
             body: JSON.stringify(payload),
         };
-        return fetch(Domain() + this.userEndpoint, options);
+        return fetch(`${this.userEndpoint}/getGifs`, options);
+    }
+
+    DeleteGifById(gifId: number) {
+        const options = {
+            method: 'Delete',
+            headers: this.headers,
+            body: JSON.stringify({ gifId }),
+        };
+        return fetch(`${this.userEndpoint}/deleteGif`, options);
+    }
+
+    GetSignedUrl(authenticatedUrl: string) {
+        const options = {
+            method: 'POST',
+            headers: this.headers,
+            body: JSON.stringify({ authenticatedUrl }),
+        };
+        return fetch(`${this.fileEndpoint}`, options);
     }
 }

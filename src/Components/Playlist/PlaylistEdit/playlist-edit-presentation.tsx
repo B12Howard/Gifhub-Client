@@ -45,7 +45,13 @@ const PlaylistEditPresentation = ({
                 <input type="text" value={newPlaylist} onChange={(ev) => setNewPlaylist(ev.target.value)} />
             </div>
             <div>
-                <CustomButton name={'Add Playlist'} callback={(val: any) => addPlaylist(newPlaylist)} />
+                <CustomButton
+                    name={'Add Playlist'}
+                    callback={(val: any) => {
+                        addPlaylist(newPlaylist);
+                        setNewPlaylist('');
+                    }}
+                />
             </div>
             <div>
                 <p>Playlists</p>
@@ -68,7 +74,7 @@ const PlaylistEditPresentation = ({
                                 return (
                                     <tr key={idx}>
                                         <td
-                                            className={`playlist-list-item`}
+                                            className={`playlist-list-item fixed-5`}
                                             onClick={() => {
                                                 setEditPlaylist(playlist);
                                                 setActivePlaylist(playlist);
@@ -112,7 +118,7 @@ const PlaylistEditPresentation = ({
                                                     startingTop: '4%',
                                                 }}
                                                 trigger={
-                                                    <button className={`delete-image`}>
+                                                    <button className={`action-button`}>
                                                         <FontAwesomeIcon icon={faTrashCan} />
                                                     </button>
                                                 }

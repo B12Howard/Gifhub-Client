@@ -14,8 +14,9 @@ interface Props {
 const usePlaylistEdit = ({ editPlaylist, setEditPlaylist }: Props) => {
     const [url, setUrl] = useState('');
     const [status, setStatus] = useState('');
-    const [playlistOrder, setPlaylistOrder] = useState<IPlaylistRecord[] | undefined>(undefined);
+    const [playlistOrder, setPlaylistOrder] = useState<IPlaylistRecord[] | null | undefined>(undefined);
     const myPlaylists = useLiveQuery(() => db.playlists.toArray());
+    const [targetPlaylist, setTargetPlaylist] = useState<number | null>();
 
     useEffect(() => {
         setPlaylistOrder(editPlaylist?.record);
@@ -32,6 +33,29 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist }: Props) => {
         try {
             const id = playlist.id;
             const record = new PlaylistRecord(url);
+            await convertToBlob([record]);
+
+            await db.playlists
+                .where('id')
+                .equals(playlist.id)
+                .modify((playlist: IPlaylist) => (playlist.record ? playlist.record.push(record) : null));
+
+            await refresh(id);
+
+            setUrl('');
+        } catch (error) {
+            setStatus(`Failed to add ${playlist.name}: ${error}`);
+        }
+    }
+
+    async function addGifFromUploads(playlist: IPlaylist, url: string) {
+        if (!playlist.id) return;
+        if (!url) return;
+
+        try {
+            const id = playlist.id;
+            const record = new PlaylistRecord(url);
+            await convertToBlobWithHeaders([record]);
 
             await db.playlists
                 .where('id')
@@ -108,7 +132,28 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist }: Props) => {
         }
     }
 
+    async function convertToBlobWithHeaders(playlistOrder: IPlaylistRecord[]) {
+        for (let element of playlistOrder) {
+            try {
+                const res = await fetch(element.url, {
+                    method: 'GET',
+                    mode: 'cors',
+                });
+                const blob: Blob = await res.blob();
+
+                if (blob) {
+                    element['blob'] = blob;
+                }
+            } catch (error) {}
+        }
+    }
+
+    function addGifFromUpload(playlistId: number, url: string) {}
+
     return {
+        targetPlaylist,
+        setTargetPlaylist,
+        addGifFromUpload,
         addGif,
         status,
         setStatus,
@@ -119,6 +164,7 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist }: Props) => {
         setPlaylistOrder,
         deleteRecord,
         getPlaylists,
+        addGifFromUploads,
     };
 };
 

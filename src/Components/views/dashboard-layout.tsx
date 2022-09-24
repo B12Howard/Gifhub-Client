@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Bottombar from '../Navigation/bottombar';
 import Topbar from '../Navigation/topbar';
@@ -9,9 +9,15 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { Location } from 'history';
 // @ts-ignore
 import M from 'materialize-css/dist/js/materialize.min.js';
+import loginBg from '../../Assets/antenna-jqh0GEvuNBY-unsplash-min.jpeg';
+import playerBg from '../../Assets/barna-kovacs-vfAguUFUIgo-unsplash-min.jpeg';
+import myUploadsBg from '../../Assets/iwan-shimko-PhciG8fpRKw-unsplash-min.jpeg';
+import creatorBg from '../../Assets/rochelle-lee-6LscnhGdFsw-unsplash-min.jpeg';
+import playlistBg from '../../Assets/rochelle-lee-uqa8vZROxkY-unsplash-min.jpeg';
 
 const DashboardLayout = () => {
     const [message, setMessage] = useState('');
+    const [bgUrl, setBgUrl] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
     const myPlaylists = useLiveQuery(() => db.playlists.toArray());
@@ -20,6 +26,32 @@ const DashboardLayout = () => {
     // @ts-ignore
     const location = useLocation<Location>();
     const { addPlaylist, setPlaylist, setActivePlaylist, setEditPlaylist, newPlaylist, setNewPlaylist } = usePlaylist();
+
+    useLayoutEffect(() => {
+        const path = location.pathname;
+
+        switch (path) {
+            case '/home/player':
+                setBgUrl(playerBg);
+                break;
+            case '/home/dashboard':
+                setBgUrl(loginBg);
+                break;
+            case '/home/playlists':
+                setBgUrl(playlistBg);
+                break;
+            case '/members/gif-creator':
+                setBgUrl(creatorBg);
+                break;
+            case '/members/my-uploads':
+                setBgUrl(myUploadsBg);
+                break;
+
+            default:
+                setBgUrl(loginBg);
+        }
+        // };
+    }, [location]);
 
     useEffect(() => {
         const uid = GetUserDataByKey('uid');
@@ -67,14 +99,15 @@ const DashboardLayout = () => {
     }, []);
 
     return (
-        <div className={`container`}>
+        <div
+            className={`container`}
+            id={`main-container`}
+            style={{
+                backgroundImage: `linear-gradient(to top right, rgba(246, 241, 237, 0.95) 10%, rgba(255, 242, 232, 0.95)), url('${bgUrl}')`,
+            }}
+        >
             <Topbar showLinks={true} />
             <div className={`row`}>
-                <div className="App">
-                    {/* <pre>Status: {message}</pre>
-                    <input id="input" type="text" value={inputValue} onChange={handleChange} />
-                    <button onClick={sendMessage}>Send Message To Server</button> */}
-                </div>
                 <Outlet />
                 <div className={'bottombar'}>
                     <Bottombar
