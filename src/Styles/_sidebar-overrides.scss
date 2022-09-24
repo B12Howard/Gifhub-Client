@@ -1,12 +1,15 @@
+// Only works when imports into index.scss not in the component style
 .side-nav,
 .sidenav {
     background-image: $bgColor, url('../Assets/laura-cleffmann-9NeMqfxFFTE-unsplash-min.jpeg');
     color: black;
     padding: 1rem !important;
+    z-index: -91 !important;
 }
 
 .sidenav-overlay {
-    z-index: 2 !important;
+    display: none;
+    z-index: -110 !important;
 }
 
 .sidenav-trigger {
