@@ -69,10 +69,10 @@ const PlaylistEditItem = ({ record, index, deleteRecord, playlistOrder, setDurat
                                 </button>
                             }
                         >
-                            <span>Do you want to delete {record.url}?</span>
+                            <span className={`modal-text`}>Do you want to delete {record.url}?</span>
                         </Modal>
                     </div>
-                    <div>{record.url}</div>
+                    <div className={`preview-container`}>{record.url}</div>
 
                     <span className={`label`}>Duration (seconds)</span>
                     <input

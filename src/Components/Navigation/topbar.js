@@ -22,7 +22,7 @@ const Topbar = ({ showLinks }) => {
             alignLinks="right"
             brand={
                 <a className="brand-override" onClick={() => navigate('/home/dashboard', { replace: false })}>
-                    Gifhub
+                    <span className={`text-2`}>GifHub</span>
                 </a>
             }
             id="mobile-nav"

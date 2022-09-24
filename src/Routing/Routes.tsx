@@ -16,7 +16,7 @@ const Loadable = (Component: any) => (props: any) =>
         </Suspense>
     );
 
-const DashboardLayout = Loadable(lazy(() => import('../Components/views/dashboard-layout')));
+const MainLayout = Loadable(lazy(() => import('../Components/views/main-layout')));
 const PlaylistLayout = Loadable(lazy(() => import('../Components/Playlist/playlist-layout')));
 
 const AppRoutes = () => (
@@ -26,18 +26,18 @@ const AppRoutes = () => (
             <Route path="login" element={<Login />} />
             <Route path="*" element={<Login />} />
         </Route>
-        <Route path="home" element={<DashboardLayout />}>
+        <Route path="home" element={<MainLayout />}>
             <Route path="dashboard" element={<DashboardPresentation />} />
             <Route path="player" element={<PlayerPresentation />} />
             <Route path="playlist/:playlistId/edit" element={<PlaylistLayout mode={'edit'} />} />
             <Route path="playlists" element={<PlaylistLayout mode={'list'} />} />
-            <Route path="*" element={<DashboardLayout />} />
+            <Route path="*" element={<MainLayout />} />
         </Route>
         <Route
             path="members"
             element={
                 <PrivateRoute>
-                    <DashboardLayout />
+                    <MainLayout />
                 </PrivateRoute>
             }
         >
@@ -45,7 +45,7 @@ const AppRoutes = () => (
             <Route path="my-uploads" element={<MyUploads />} />
             <Route path="*" element={<GifCreator />} />
         </Route>
-        <Route path="*" element={<DashboardLayout />} />
+        <Route path="*" element={<MainLayout />} />
     </Routes>
 );
 
