@@ -4,7 +4,7 @@ import { ConvertPayloadDTO, IConvertPayloadDTO } from '../../Models/ConvertPaylo
 import ConvertToGifService from '../../Services/Api/ConverterService';
 import Button from '../../Shared/Components/ButtonType1/button';
 // @ts-ignore
-import M from 'materialize-css/dist/js/materialize.min.js';
+import { toast } from 'materialize-css/dist/js/materialize.min.js';
 import InputMask, { BeforeMaskedStateChangeStates } from 'react-input-mask';
 
 const GifCreator = () => {
@@ -28,7 +28,7 @@ const GifCreator = () => {
 
         // TODO parse json for message
         const message = await res.json();
-        M.toast({ html: res.statusText, displayLength: 3000 });
+        toast({ html: res.statusText, displayLength: 3000 });
     };
 
     const validateDuration = () => {

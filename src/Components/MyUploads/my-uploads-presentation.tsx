@@ -7,9 +7,6 @@ import { IPlaylist } from '../../Models/playlist';
 import CustomButton from '../../Shared/Components/ButtonType1/button';
 import usePlaylistEdit from '../Playlist/PlaylistEdit/playlist-edit-smart';
 import useGif from '../GifCreator/gif-smart';
-import 'materialize-css/dist/css/materialize.min.css';
-// @ts-ignore
-import M from 'materialize-css';
 import usePlaylist from '../Playlist/playlist-smart';
 
 const MyUploads = () => {

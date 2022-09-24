@@ -4,7 +4,7 @@ import { db } from '../../../db';
 import { IPlaylist } from '../../../Models/playlist';
 import { IPlaylistRecord, PlaylistRecord } from '../../../Models/record';
 // @ts-ignore
-import M from 'materialize-css/dist/js/materialize.min.js';
+import { toast } from 'materialize-css/dist/js/materialize.min.js';
 
 interface Props {
     editPlaylist: IPlaylist | undefined;
@@ -82,7 +82,7 @@ const usePlaylistEdit = ({ editPlaylist, setEditPlaylist }: Props) => {
                     .equals(playlist.id)
                     .modify((playlist: IPlaylist) => (playlist.record = [...playlistOrder]));
 
-                M.toast({ html: 'Saved', displayLength: 3000 });
+                toast({ html: 'Saved', displayLength: 3000 });
             });
         } catch (error) {
             setStatus(`Failed to update playlist order: ${error}`);

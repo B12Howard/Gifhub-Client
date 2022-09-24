@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './_bars.scss';
-import M from 'materialize-css';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Navbar, NavItem, Icon } from 'react-materialize';
 import { LogoutService } from '../../Services/AuthenticationService';
