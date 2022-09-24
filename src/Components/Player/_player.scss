@@ -81,10 +81,14 @@ $player-width: 70vw;
 
 @media screen and (max-width: 991px) {
     .gif-player-image {
-        max-height: 499px;
         max-width: 100%;
+        object-fit: contain;
     }
 }
 .player-item {
     max-width: 80vw;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets {
+    bottom: 5px !important;
 }
