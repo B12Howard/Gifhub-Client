@@ -1,4 +1,6 @@
-@import './_variables';
+@import './Styles/_variables';
+@import './Styles/_spinner';
+@import './Styles/sidebar-overrides';
 
 body {
     background-attachment: fixed !important;
@@ -25,6 +27,9 @@ code {
 .player-body {
     display: flex;
 }
+.login-body {
+    display: flex;
+}
 .edit-preview {
     width: 100px;
     height: 100px;
@@ -32,25 +37,6 @@ code {
 .uploaded-file-preview {
     width: 100%;
     height: auto;
-}
-.player-item {
-    max-width: 80vw;
-}
-
-.sidebar {
-    top: 60px;
-    height: 100%;
-    width: 180px;
-    transition: 0.2s ease-in-out;
-}
-.close-sidebar {
-    margin-left: -175px;
-}
-.sidebar.open {
-    left: 0;
-}
-.open-sidebar {
-    margin-left: 0px;
 }
 
 .bottombar {
@@ -108,10 +94,10 @@ div .login-container {
             flex-direction: column;
         }
     }
-}
 
-.sidenav-overlay {
-    z-index: 2 !important;
+    .login-body {
+        flex-direction: column;
+    }
 }
 
 .swiper-container {
@@ -127,10 +113,6 @@ div .login-container {
         min-width: 5rem;
         overflow-x: hidden;
     }
-}
-
-.sidenav-trigger {
-    z-index: 0 !important;
 }
 
 .btn {
@@ -153,10 +135,6 @@ button:focus {
 }
 
 @media screen and (max-width: 991px) {
-}
-
-.sidenav {
-    width: 100vw;
 }
 
 .burger {
@@ -257,55 +235,6 @@ button.back {
 }
 .text-2 {
     font-family: 'Gilda Display', serif;
-}
-
-.side-nav,
-.sidenav {
-    background-image: $bgColor, url('../src/Assets/laura-cleffmann-9NeMqfxFFTE-unsplash-min.jpeg');
-    color: black;
-    padding: 1rem !important;
-}
-
-.loader,
-.loader:after {
-    border-radius: 50%;
-    width: 10em;
-    height: 10em;
-}
-.loader {
-    margin: 60px auto;
-    font-size: 10px;
-    position: relative;
-    text-indent: -9999em;
-    border-top: 1.1em solid rgba(255, 255, 255, 0.2);
-    border-right: 1.1em solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
-    border-left: 1.1em solid $secondary1;
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-animation: load8 1.1s infinite linear;
-    animation: load8 1.1s infinite linear;
-}
-@-webkit-keyframes load8 {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-@keyframes load8 {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
 }
 
 .action-button-container {

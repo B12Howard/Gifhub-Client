@@ -1,13 +1,13 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import GifCreator from '../Components/GifCreator/gif-creator';
-import MyUploads from '../Components/GifCreator/my-uploads';
-import LoadingScreen from '../Components/loading-screen';
+import MyUploads from '../Components/MyUploads/my-uploads-presentation';
+import LoadingScreen from '../Components/Shared/loading-screen';
 import Login from '../Components/Login/login';
 import PlayerPresentation from '../Components/Player/player-presentation';
-import DashboardPresentation from '../Components/views/dashboard-presentation';
-import LoginLayout from '../Components/views/login-layout';
-import PrivateRoute from './AuthGuard';
+import DashboardPresentation from '../Components/Dashboard/dashboard-presentation';
+import LoginLayout from '../Components/Layouts/login-layout';
+import PrivateRoute from '../Guards/AuthGuard';
 
 const Loadable = (Component: any) => (props: any) =>
     (
@@ -16,8 +16,8 @@ const Loadable = (Component: any) => (props: any) =>
         </Suspense>
     );
 
-const MainLayout = Loadable(lazy(() => import('../Components/views/main-layout')));
-const PlaylistLayout = Loadable(lazy(() => import('../Components/Playlist/playlist-layout')));
+const MainLayout = Loadable(lazy(() => import('../Components/Layouts/main-layout')));
+const PlaylistLayout = Loadable(lazy(() => import('../Components/Playlist/playlist-presentation')));
 
 const AppRoutes = () => (
     // TODo Private route on gif-cretor

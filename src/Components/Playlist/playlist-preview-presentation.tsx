@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { IPlaylist } from '../../../Models/playlist';
+import { IPlaylist } from '../../Models/playlist';
 
 interface Props {
     activePlaylist: IPlaylist | undefined;

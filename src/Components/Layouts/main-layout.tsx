@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import Bottombar from '../Navigation/bottombar';
-import Topbar from '../Navigation/topbar';
+import Bottombar from '../Bars/bottombar';
+import Topbar from '../Bars/topbar';
 import { GetUserDataByKey } from '../../Services/LocalStorage';
-import usePlaylist from '../Playlist/playlist';
+import usePlaylist from '../Playlist/playlist-smart';
 import { db } from '../../db';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Location } from 'history';

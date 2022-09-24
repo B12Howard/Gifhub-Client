@@ -1,5 +1,5 @@
 import { IPlaylistRecord } from '../../Models/record';
-
+import './_player.scss';
 interface Props {
     record: IPlaylistRecord;
 }

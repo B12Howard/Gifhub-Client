@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../Shared/firebaseConfig';
+import { firebaseConfig } from '../Shared/Config/firebaseConfig';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { DeleteLocalStorage } from './LocalStorage';
 

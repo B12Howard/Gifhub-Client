@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Button, Modal, Select } from 'react-materialize';
 import { IPlaylist } from '../../Models/playlist';
-import CustomButton from '../../Shared/Components/button';
-import usePlaylistEdit from '../Playlist/PlaylistEdit/playlist-edit';
-import useGif from './gif-smart';
+import CustomButton from '../../Shared/Components/ButtonType1/button';
+import usePlaylistEdit from '../Playlist/PlaylistEdit/playlist-edit-smart';
+import useGif from '../GifCreator/gif-smart';
 import 'materialize-css/dist/css/materialize.min.css';
 // @ts-ignore
 import M from 'materialize-css';
-import usePlaylist from '../Playlist/playlist';
+import usePlaylist from '../Playlist/playlist-smart';
 
 const MyUploads = () => {
     const {

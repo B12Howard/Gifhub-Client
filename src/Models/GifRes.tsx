@@ -1,4 +1,4 @@
-import { SqlDate } from '../Date';
+import { SqlDate } from './Date';
 
 export interface IGifFileRes {
     id?: number;

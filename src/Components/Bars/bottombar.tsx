@@ -4,6 +4,7 @@ import { IPlaylist } from '../../Models/playlist';
 import { Location } from 'history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faListAlt } from '@fortawesome/free-regular-svg-icons';
+import './_bars.scss';
 interface Props {
     myPlaylists: IPlaylist[] | undefined;
     newPlaylist: string;

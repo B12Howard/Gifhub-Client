@@ -1,4 +1,4 @@
-import { IGifFileRes } from '../../Models/File/GifRes';
+import { IGifFileRes } from '../../Models/GifRes';
 import { IPaginationDTO } from '../../Models/Pagination';
 import { GetUserToken } from '../LocalStorage';
 import Domain from './Domain';

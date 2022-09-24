@@ -4,7 +4,7 @@ import { SetUserDataLocalStorage } from '../../Services/LocalStorage';
 import LoginService, { CheckTokenService } from '../../Services/AuthenticationService';
 import { Context } from '../../Store/Store';
 import { useNavigate } from 'react-router-dom';
-import Button from '../../Shared/Components/button';
+import Button from '../../Shared/Components/ButtonType1/button';
 import { seteuid } from 'process';
 
 const Login = () => {
@@ -48,7 +48,7 @@ const Login = () => {
     };
 
     return (
-        <>
+        <div className={`flex`}>
             <div className="login-container">
                 <div className="login-input-container">
                     <input
@@ -76,7 +76,10 @@ const Login = () => {
 
                 {error ? <div>{error}</div> : null}
             </div>
-        </>
+            <div>
+                blurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurbblurb
+            </div>
+        </div>
     );
 };
 

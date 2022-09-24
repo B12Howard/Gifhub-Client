@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 // @ts-ignore
 import M from 'materialize-css/dist/js/materialize.min.js';
-import { IGifFileRes } from '../../Models/File/GifRes';
+import { IGifFileRes } from '../../Models/GifRes';
 import { IPaginationDTO, PaginationDTO } from '../../Models/Pagination';
 import FileService from '../../Services/Api/FileService';
 import { SqlDate } from '../../Models/Date';
