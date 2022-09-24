@@ -20,7 +20,7 @@ div > .button-container {
         overflow: hidden;
         transition: background 400ms;
         color: $primary1;
-        background-color: $secondary1;
+        background-color: $third1;
         padding: 1rem 2rem;
         font-size: 1.2rem;
         outline: 0;
@@ -29,17 +29,17 @@ div > .button-container {
         cursor: pointer;
 
         &:focus {
-            background-color: $secondary1 !important;
+            background-color: $third1 !important;
         }
 
         &:active {
-            background-color: $secondary1 !important;
+            background-color: $third2 !important;
             box-shadow: none !important;
             outline: 0;
         }
 
         &:hover:not(:active) {
-            background-color: $secondary1 !important;
+            background-color: $third3 !important;
         }
     }
 
