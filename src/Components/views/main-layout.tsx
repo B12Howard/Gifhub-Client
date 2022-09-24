@@ -15,9 +15,11 @@ import myUploadsBg from '../../Assets/iwan-shimko-PhciG8fpRKw-unsplash-min.jpeg'
 import creatorBg from '../../Assets/rochelle-lee-6LscnhGdFsw-unsplash-min.jpeg';
 import playlistBg from '../../Assets/rochelle-lee-uqa8vZROxkY-unsplash-min.jpeg';
 
-const DashboardLayout = () => {
+const MainLayout = () => {
+    const [closeSidebar, setCloseSidebar] = useState(false);
     const [message, setMessage] = useState('');
     const [bgUrl, setBgUrl] = useState('');
+    const [bgOpacity, setBgOpacity] = useState('0.95');
     const [inputValue, setInputValue] = useState('');
     const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
     const myPlaylists = useLiveQuery(() => db.playlists.toArray());
@@ -25,29 +27,36 @@ const DashboardLayout = () => {
     const [socket, setSocket] = useState<WebSocket | null>();
     // @ts-ignore
     const location = useLocation<Location>();
-    const { addPlaylist, setPlaylist, setActivePlaylist, setEditPlaylist, newPlaylist, setNewPlaylist } = usePlaylist();
+    const { addPlaylist, setPlaylist, setActivePlaylist, setEditPlaylist, newPlaylist, setNewPlaylist, playlist } =
+        usePlaylist();
 
     useLayoutEffect(() => {
         const path = location.pathname;
 
         switch (path) {
             case '/home/player':
+                setBgOpacity('0.93');
                 setBgUrl(playerBg);
                 break;
             case '/home/dashboard':
+                setBgOpacity('0.90');
                 setBgUrl(loginBg);
                 break;
             case '/home/playlists':
+                setBgOpacity('0.95');
                 setBgUrl(playlistBg);
                 break;
             case '/members/gif-creator':
+                setBgOpacity('0.95');
                 setBgUrl(creatorBg);
                 break;
             case '/members/my-uploads':
+                setBgOpacity('0.90');
                 setBgUrl(myUploadsBg);
                 break;
 
             default:
+                setBgOpacity('0.95');
                 setBgUrl(loginBg);
         }
         // };
@@ -103,11 +112,12 @@ const DashboardLayout = () => {
             className={`container`}
             id={`main-container`}
             style={{
-                backgroundImage: `linear-gradient(to top right, rgba(246, 241, 237, 0.95) 10%, rgba(255, 242, 232, 0.95)), url('${bgUrl}')`,
+                backgroundImage: `linear-gradient(to top right, rgba(246, 241, 237, ${bgOpacity}) 10%, rgba(255, 242, 232, ${bgOpacity})), url('${bgUrl}')`,
             }}
         >
             <Topbar showLinks={true} />
             <div className={`row`}>
+                <div className="App"></div>
                 <Outlet />
                 <div className={'bottombar'}>
                     <Bottombar
@@ -120,10 +130,13 @@ const DashboardLayout = () => {
                         sidebarClassname={sidebarClassname}
                         setPlaylist={setPlaylist}
                         currentLocation={currentLocation}
+                        playlist={playlist}
+                        setCloseSidebar={setCloseSidebar}
+                        closeSidebar={closeSidebar}
                     />
                 </div>
             </div>
         </div>
     );
 };
-export default DashboardLayout;
+export default MainLayout;

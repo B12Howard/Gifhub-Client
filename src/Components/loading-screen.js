@@ -12,7 +12,7 @@ const LoadingScreen = () => {
 
     return (
         <div className="container">
-            <div>Loading Gifhub</div>
+            <div className={`loader`}>Loading GifHub</div>
         </div>
     );
 };
