@@ -30,12 +30,12 @@ const Topbar = ({ showLinks }) => {
             options={{
                 draggable: true,
                 edge: 'left',
-                inDuration: 250,
+                inDuration: 50,
                 onCloseEnd: null,
                 onCloseStart: null,
                 onOpenEnd: null,
                 onOpenStart: null,
-                outDuration: 200,
+                outDuration: 50,
                 preventScrolling: true,
             }}
         >

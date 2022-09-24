@@ -43,8 +43,10 @@ const Bottombar = ({ myPlaylists, setPlaylist, currentLocation, playlist, setClo
                 className={`side-nav`}
                 id="SideNav-31"
                 options={{
-                    edge: 'right',
                     draggable: true,
+                    edge: 'right',
+                    inDuration: 80,
+                    outDuration: 80,
                 }}
                 trigger={
                     <div>
