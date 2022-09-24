@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import { IPlaylist } from '../../Models/playlist';
-// import { Context } from '../../Store/Store';
 
 interface Props {
     activePlaylist: IPlaylist | undefined;

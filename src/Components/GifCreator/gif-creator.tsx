@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { GetUserDataByKey } from '../../Services/LocalStorage';
 import { ConvertPayloadDTO, IConvertPayloadDTO } from '../../Models/ConvertPayload';
 import ConvertToGifService from '../../Services/Api/ConverterService';
-import Button from '../../Shared/Components/button';
+import Button from '../../Shared/Components/ButtonType1/button';
 // @ts-ignore
 import M from 'materialize-css/dist/js/materialize.min.js';
 import InputMask, { BeforeMaskedStateChangeStates } from 'react-input-mask';

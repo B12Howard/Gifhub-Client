@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import usePlaylist from './playlist';
-import EditSinglePlaylist from './PlaylistEdit/edit-single-playlist';
+import usePlaylist from './playlist-smart';
+import EditSinglePlaylist from './PlaylistEdit/edit-single-playlist-presentation';
 import PlaylistEditPresentation from './PlaylistEdit/playlist-edit-presentation';
 import './PlaylistEdit/_playlist.scss';
 interface Props {

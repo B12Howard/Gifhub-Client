@@ -1,0 +1,34 @@
+.side-nav,
+.sidenav {
+    background-image: $bgColor, url('../Assets/laura-cleffmann-9NeMqfxFFTE-unsplash-min.jpeg');
+    color: black;
+    padding: 1rem !important;
+}
+
+.sidenav-overlay {
+    z-index: 2 !important;
+}
+
+.sidenav-trigger {
+    z-index: 0 !important;
+}
+
+.sidenav {
+    width: 100vw;
+}
+
+.sidebar {
+    top: 60px;
+    height: 100%;
+    width: 180px;
+    transition: 0.01s ease-in-out;
+}
+.close-sidebar {
+    margin-left: -175px;
+}
+.sidebar.open {
+    left: 0;
+}
+.open-sidebar {
+    margin-left: 0px;
+}

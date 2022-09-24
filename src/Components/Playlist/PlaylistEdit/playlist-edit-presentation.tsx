@@ -1,6 +1,6 @@
-import usePlaylistEdit from './playlist-edit';
+import usePlaylistEdit from './playlist-edit-smart';
 import { IPlaylist } from '../../../Models/playlist';
-import CustomButton from '../../../Shared/Components/button';
+import CustomButton from '../../../Shared/Components/ButtonType1/button';
 import { useNavigate } from 'react-router-dom';
 import './_playlist.scss';
 import { Button, Modal } from 'react-materialize';
