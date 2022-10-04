@@ -47,6 +47,17 @@ const Login = () => {
         });
     };
 
+    const emailSection = () => {
+        return (
+            <>
+                <span>
+                    contact me, Howard Luong, at{' '}
+                    <a href="mailto:contacthowardluong@gmail.com">contacthowardluong@gmail.com</a>
+                </span>
+            </>
+        );
+    };
+
     return (
         <div className={`login-body`}>
             <div className="login-container">
@@ -78,20 +89,26 @@ const Login = () => {
             </div>
             <div className={`login-article`}>
                 <p>
-                    Without an account you can save gifs in playlists and view them on your phone! How? If the gif
-                    source allows it, GifHub will save the gif locally for offline viewing. Otherwise you will need an
-                    internet connection to view your playlists.
+                    <span className={`bold`}>Without an account</span> you can save gifs in playlists and view them on
+                    your phone! How? If the gif source allows it, GifHub will save the gif locally for offline viewing.
+                    Otherwise you will need an internet connection to view your playlists.
                 </p>
                 <p>
-                    With an account you have access to Gif Creator where you can clip mp4s from a url source and convert
-                    them to gifs at 1024p max. Files are saved for one day. And you can save these to your playlists for
-                    offline viewing.
+                    <span className={`bold`}>With an account</span> you have access to Gif Creator where you can clip
+                    mp4s from a url source and convert them to gifs at 1024p max. Files are saved for one day. And you
+                    can save these to your playlists for offline viewing. Since this is just a demo, for an account{' '}
+                    {emailSection()}
                 </p>
                 <p>
-                    Technical Stuff: Uploads are saved to a cloud storage provider and are deleted automatically after
-                    24 hours. Gif Creator and My Uploads are hosted on AWS EC2 instances and they cost money, no
-                    suprise. So this service will have an up time of only a couple hours a day. You'll know when the
-                    status light is green.
+                    <span className={`bold`}>Technical Stuff:</span> Uploads are saved to a cloud storage provider and
+                    are deleted automatically after 24 hours. Gif Creator and My Uploads are hosted on AWS EC2 instances
+                    and they cost money, no suprise. So this service will have an up time of only a couple hours a day.
+                    You'll know when the status light is green.
+                </p>
+                <p>
+                    <span className={`bold`}>Want more?</span> If you're interested in this project and want something
+                    similar built whether it is gif with overlays or video editing with FFMPEG hosting on AWS{' '}
+                    {emailSection()}
                 </p>
             </div>
         </div>
