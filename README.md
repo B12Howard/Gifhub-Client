@@ -6,6 +6,8 @@ Born in Seattle on a January night out. This is a PWA for viewing locally saved 
 
 There is a connection to a service for converting video links to clipped Gifs https://github.com/B12Howard/gifcreator, you will need to be authenticated to used it.
 
+Demo https://gifhub.media/
+
 ## What is being used
 
 IndexedDB (via Dexie wrapper)
