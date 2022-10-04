@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Bottombar from '../Bars/bottombar';
 import Topbar from '../Bars/topbar';
@@ -25,10 +25,12 @@ const MainLayout = () => {
     const myPlaylists = useLiveQuery(() => db.playlists.toArray());
     const [sidebarClassname, setSidebarClassname] = useState(true);
     const [socket, setSocket] = useState<WebSocket | null>();
+    let [delay, setDelay] = useState(1000);
     // @ts-ignore
     const location = useLocation<Location>();
     const { addPlaylist, setPlaylist, setActivePlaylist, setEditPlaylist, newPlaylist, setNewPlaylist, playlist } =
         usePlaylist();
+    const savedCallback: React.MutableRefObject<any> = useRef();
 
     useLayoutEffect(() => {
         const path = location.pathname;
@@ -63,8 +65,7 @@ const MainLayout = () => {
     }, [location]);
 
     useEffect(() => {
-        const uid = GetUserDataByKey('uid');
-        setSocket(new WebSocket('ws://localhost:5020/ws/' + uid));
+        setSocket(new WebSocket('ws://localhost:5020/ws/' + GetUserDataByKey('uid')));
     }, []);
 
     useEffect(() => {
@@ -86,6 +87,26 @@ const MainLayout = () => {
     useEffect(() => {
         setCurrentLocation(location);
     }, [location]);
+
+    useEffect(() => {
+        savedCallback.current = callback;
+    }, [callback]);
+
+    useEffect(() => {
+        function tick() {
+            savedCallback.current();
+        }
+        if (delay !== null) {
+            let id = setInterval(tick, delay);
+            return () => clearInterval(id);
+        }
+    }, [delay]);
+
+    function callback() {
+        if (socket?.readyState === 3) {
+            setSocket(new WebSocket('ws://localhost:5020/ws/' + GetUserDataByKey('uid')));
+        }
+    }
 
     const sendMessage = useCallback(
         (e) => {
@@ -116,6 +137,7 @@ const MainLayout = () => {
             }}
         >
             <Topbar showLinks={true} />
+            Server is {socket?.readyState === 1 ? 'up' : 'down'}
             <div className={`row`}>
                 <div className="App"></div>
                 <Outlet />
