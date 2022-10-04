@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import GifCreator from '../Components/GifCreator/gif-creator';
 import MyUploads from '../Components/MyUploads/my-uploads-presentation';
 import LoadingScreen from '../Components/Shared/loading-screen';
@@ -20,32 +20,37 @@ const MainLayout = Loadable(lazy(() => import('../Components/Layouts/main-layout
 const PlaylistLayout = Loadable(lazy(() => import('../Components/Playlist/playlist-presentation')));
 
 const AppRoutes = () => (
-    // TODo Private route on gif-cretor
     <Routes>
         <Route path="auth" element={<LoginLayout />}>
             <Route path="login" element={<Login />} />
-            <Route path="*" element={<Login />} />
+            <Route path="*" element={<Navigate replace to="/auth/login" />} />
         </Route>
-        <Route path="home" element={<MainLayout />}>
-            <Route path="dashboard" element={<DashboardPresentation />} />
-            <Route path="player" element={<PlayerPresentation />} />
-            <Route path="playlist/:playlistId/edit" element={<PlaylistLayout mode={'edit'} />} />
-            <Route path="playlists" element={<PlaylistLayout mode={'list'} />} />
-            <Route path="*" element={<MainLayout />} />
+
+        <Route path="/" element={<MainLayout />}>
+            <Route path="home">
+                <Route path="dashboard" element={<DashboardPresentation />} />
+                <Route path="player" element={<PlayerPresentation />} />
+                <Route path="playlist/:playlistId/edit" element={<PlaylistLayout mode={'edit'} />} />
+                <Route path="playlists" element={<PlaylistLayout mode={'list'} />} />
+            </Route>
+            <Route
+                path="members/gif-creator"
+                element={
+                    <PrivateRoute>
+                        <GifCreator />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="members/my-uploads"
+                element={
+                    <PrivateRoute>
+                        <MyUploads />
+                    </PrivateRoute>
+                }
+            />
+            <Route path="*" element={<Navigate replace to="/home/dashboard" />} />
         </Route>
-        <Route
-            path="members"
-            element={
-                <PrivateRoute>
-                    <MainLayout />
-                </PrivateRoute>
-            }
-        >
-            <Route path="gif-creator" element={<GifCreator />} />
-            <Route path="my-uploads" element={<MyUploads />} />
-            <Route path="*" element={<GifCreator />} />
-        </Route>
-        <Route path="*" element={<MainLayout />} />
     </Routes>
 );
 
