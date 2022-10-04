@@ -9,7 +9,8 @@ body {
     background-position-x: 100%;
     background-position-y: 100%;
     background-size: 100% auto;
-    font-family: 'Martel Sans', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
+
     font-size: 1.2rem;
     // font-family: 'Montserrat', sans-serif;
 
@@ -252,14 +253,14 @@ button.back {
 }
 
 .text-1 {
-    font-family: 'Martel Sans', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
     font-size: 1.3rem;
 }
 .text-2 {
-    font-family: 'Martel Sans', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
 }
 .text-3 {
-    font-family: 'Martel Sans', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
     font-size: 1.5rem;
 }
 
@@ -282,4 +283,18 @@ button.back {
 
 input {
     font-size: 1.3rem !important;
+}
+
+.duration-container {
+    display: flex;
+    margin-top: 1rem;
+    label {
+        margin-right: 0.5rem;
+    }
+}
+
+input[type='number'] {
+    &.duration {
+        width: 4rem !important;
+    }
 }
