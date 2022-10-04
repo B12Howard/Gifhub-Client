@@ -19,7 +19,7 @@ const PrivateRoute = ({ children }) => {
                     type: 'RESET_STATE',
                 })}
                 {DeleteLocalStorage()}
-                return <Navigate to="/home" />
+                return <Navigate to="/auth/login" />
             </>
         )
     ) : (
@@ -30,7 +30,7 @@ const PrivateRoute = ({ children }) => {
                 type: 'RESET_STATE',
             })}
             {DeleteLocalStorage()}
-            return <Navigate to="/home" />
+            return <Navigate to="/auth/login" />
         </>
     );
 };

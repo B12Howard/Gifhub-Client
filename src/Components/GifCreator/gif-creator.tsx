@@ -5,25 +5,42 @@ import ConvertToGifService from '../../Services/Api/ConverterService';
 import Button from '../../Shared/Components/ButtonType1/button';
 // @ts-ignore
 import { toast } from 'materialize-css/dist/js/materialize.min.js';
-import InputMask, { BeforeMaskedStateChangeStates } from 'react-input-mask';
+import DurationInput from '../../Shared/Components/Time/duration-input';
 
 const GifCreator = () => {
     const [mp4Url, setMp4Url] = useState<string>('');
-    const [start, setStart] = useState<string>('');
-    const [end, setEnd] = useState<string>('');
+    const [start, setStart] = useState<{ hour: string; min: string; sec: string }>({
+        hour: '',
+        min: '',
+        sec: '',
+    });
+    const [end, setEnd] = useState<{ hour: string; min: string; sec: string }>({
+        hour: '',
+        min: '',
+        sec: '',
+    });
 
     const submit = async () => {
         if (!mp4Url || !start || !end) return;
 
-        // TODO check clip time vs how much they are allowed per membership number
+        if (!validateDuration()) {
+            toast({ html: 'Start time has to be before the end time', displayLength: 3000 });
+
+            return;
+        }
 
         const uid = GetUserDataByKey('uid');
         const payload: IConvertPayloadDTO = new ConvertPayloadDTO({
             video: mp4Url,
-            start: start,
-            end: end,
+            start: `${createNumberForPayload(start.hour)}:${createNumberForPayload(start.min)}:${createNumberForPayload(
+                start.sec
+            )}`,
+            end: `${createNumberForPayload(end.hour)}:${createNumberForPayload(end.min)}:${createNumberForPayload(
+                end.sec
+            )}`,
             wsUserID: uid,
         });
+
         const res = await ConvertToGifService(payload);
 
         // TODO parse json for message
@@ -31,28 +48,24 @@ const GifCreator = () => {
         toast({ html: res.statusText, displayLength: 3000 });
     };
 
-    const validateDuration = () => {
-        // Length of the clip depends on the user type. Verify with server that the user is within bounds of the user type
+    const createNumberForPayload = (num: string | number) => {
+        if (typeof num === 'number') {
+            num = num.toString();
+            if (num.length < 1) {
+                num = '00';
+            }
+        }
+        return num.padStart(2, '0');
     };
 
-    const beforeMaskedStateChange = (newState: BeforeMaskedStateChangeStates) => {
-        var value = newState.nextState.value;
-        var selection = newState.nextState.selection;
-        // var cursorPosition = selection ? selection.start : null;
+    const validateDuration = () => {
+        const startTime = new Date();
+        const endTime = new Date();
 
-        // // keep minus if entered by user
-        // if (value.endsWith('-') && userInput !== '-' && !this.state.value.endsWith('-')) {
-        //   if (cursorPosition === value.length) {
-        //     cursorPosition--;
-        //     selection = { start: cursorPosition, end: cursorPosition };
-        //   }
-        //   value = value.slice(0, -1);
-        // }
-
-        return {
-            value,
-            selection,
-        };
+        return (
+            startTime.setHours(Number(start.hour), Number(start.min), Number(start.sec), 0) <=
+            endTime.setHours(Number(end.hour), Number(end.min), Number(end.sec), 0)
+        );
     };
 
     return (
@@ -68,21 +81,13 @@ const GifCreator = () => {
                 />
                 <label htmlFor="email">MP4 URL</label>
             </div>
-            <div>
-                <InputMask
-                    mask="99:99:99"
-                    value={start}
-                    onChange={(ev) => setStart(ev.target.value)}
-                    beforeMaskedStateChange={(states: BeforeMaskedStateChangeStates) => beforeMaskedStateChange(states)}
-                />
-                {/* <input id="start" name="start" type="text" value={start} onChange={(ev) => setStart(ev.target.value)} /> */}
-                <label htmlFor="start">Clip Start Time</label>
-            </div>
-            <div>
-                <InputMask mask="99:99:99" value={end} onChange={(ev) => setEnd(ev.target.value)} />
 
-                <label htmlFor="end">Clip End Time</label>
-            </div>
+            <DurationInput setTime={setStart} time={start} />
+            <label>Start</label>
+
+            <DurationInput setTime={setEnd} time={end} />
+            <label>End</label>
+
             <div>
                 <Button name={'Submit'} callback={(val: any) => submit()} />
             </div>

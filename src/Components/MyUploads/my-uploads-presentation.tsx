@@ -226,7 +226,9 @@ const MyUploads = () => {
                                                     dismissible: true,
                                                     endingTop: '10%',
                                                     inDuration: 250,
-
+                                                    onCloseEnd: () => {
+                                                        setPreviewUrl('');
+                                                    },
                                                     opacity: 0.5,
                                                     outDuration: 250,
                                                     preventScrolling: true,
