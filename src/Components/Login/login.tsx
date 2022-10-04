@@ -101,13 +101,13 @@ const Login = () => {
                 </p>
                 <p>
                     <span className={`bold`}>Technical Stuff:</span> Uploads are saved to a cloud storage provider and
-                    are deleted automatically after 24 hours. Gif Creator and My Uploads are hosted on AWS EC2 instances
-                    and they cost money, no suprise. So this service will have an up time of only a couple hours a day.
-                    You'll know when the status light is green.
+                    are deleted automatically after 24 hours. GifHub's server is hosted on AWS EC2 instances and they
+                    cost money, no suprise. So this service will have an up time of only a couple hours a day. You'll
+                    know when the status light is green.
                 </p>
                 <p>
                     <span className={`bold`}>Want more?</span> If you're interested in this project and want something
-                    similar built whether it is gif with overlays or video editing with FFMPEG hosting on AWS{' '}
+                    similar built, whether it is gifs with overlays or video editing pipelines with FFMPEG hosted on AWS{' '}
                     {emailSection()}
                 </p>
             </div>
