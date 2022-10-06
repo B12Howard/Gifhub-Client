@@ -81,16 +81,7 @@ div .login-container {
     height: auto;
 }
 
-.bottombar {
-    width: 40vw;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    bottom: 8%;
-    margin-left: 25%;
-}
 .container {
-    width: 100% !important;
     height: 100vh !important;
     background-size: cover;
     background-image: $bgColorLight, url('../src/Assets/antenna-jqh0GEvuNBY-unsplash-min.jpeg');
@@ -258,6 +249,7 @@ button.back {
 }
 .text-2 {
     font-family: 'Helvetica Neue', sans-serif;
+    font-size: 1.6rem;
 }
 .text-3 {
     font-family: 'Helvetica Neue', sans-serif;
@@ -277,8 +269,9 @@ button.back {
         position: absolute;
     }
 }
+
 .close-control-button {
-    background: $secondary1;
+    cursor: pointer;
 }
 
 input {
@@ -297,4 +290,19 @@ input[type='number'] {
     &.duration {
         width: 4rem !important;
     }
+}
+
+label {
+    color: black !important;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+    -moz-appearance: textfield;
 }
