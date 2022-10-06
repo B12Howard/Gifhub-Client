@@ -63,24 +63,28 @@ const Topbar = ({ showLinks }) => {
                     >
                         Playlists
                     </a>
-                    <a
-                        className={`nav-list-item`}
-                        onClick={() => {
-                            toggleLinks();
-                            navigate('/members/gif-creator', { replace: false });
-                        }}
-                    >
-                        Gif Creator
-                    </a>
-                    <a
-                        className={`nav-list-item`}
-                        onClick={() => {
-                            toggleLinks();
-                            navigate('/members/my-uploads', { replace: false });
-                        }}
-                    >
-                        My Uploads
-                    </a>
+                    {GetUserToken() && (
+                        <a
+                            className={`nav-list-item`}
+                            onClick={() => {
+                                toggleLinks();
+                                navigate('/members/gif-creator', { replace: false });
+                            }}
+                        >
+                            Gif Creator
+                        </a>
+                    )}
+                    {GetUserToken() && (
+                        <a
+                            className={`nav-list-item`}
+                            onClick={() => {
+                                toggleLinks();
+                                navigate('/members/my-uploads', { replace: false });
+                            }}
+                        >
+                            My Uploads
+                        </a>
+                    )}
                     <a
                         className={`nav-list-item`}
                         onClick={() => {
