@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { SideNav, Button } from 'react-materialize';
 import { IPlaylist } from '../../Models/playlist';
 import { Location } from 'history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,7 +27,6 @@ const Bottombar = ({ myPlaylists, setPlaylist, currentLocation, playlist, setClo
         switch (currentLocation?.pathname) {
             case '/home/player':
                 setHideBottomBar(false);
-                console.log('hideBottomBar', hideBottomBar);
                 break;
 
             default:
@@ -37,67 +35,66 @@ const Bottombar = ({ myPlaylists, setPlaylist, currentLocation, playlist, setClo
         }
     }, [currentLocation]);
 
+    const toggleLinks = () => {
+        const myLinks = document.getElementById('bottomBarLinks');
+        const elem = document.querySelector('#bottom-menu');
+        if (!elem || !myLinks) return;
+        const style = getComputedStyle(elem);
+
+        if (style.display === 'none') {
+            return;
+        }
+
+        if (myLinks.classList.contains('show-playlist-display')) {
+            myLinks.classList.remove('show-playlist-display');
+        } else {
+            myLinks.classList.add('show-playlist-display');
+        }
+    };
+
     const getPlayerButtonAction = () => {
         return (
-            <SideNav
-                className={`side-nav`}
-                id="SideNav-31"
-                options={{
-                    draggable: true,
-                    edge: 'right',
-                    inDuration: 80,
-                    outDuration: 80,
-                }}
-                trigger={
-                    <div>
-                        <Button
-                            node="button"
-                            className="control-button"
-                            onClick={() => {
-                                setOpened(true);
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faListAlt} />
-                        </Button>
+            <>
+                <div className="bottomnav">
+                    <div className="playlist-display mobile-playlist-display" id="bottomBarLinks">
+                        {<span className={`text-1`}>My Playlists</span>}
+                        {myPlaylists
+                            ?.filter((playlist: IPlaylist) => playlist.name)
+                            .map((playlist: IPlaylist, index: number) => (
+                                <a
+                                    key={index}
+                                    className={`paylist-item`}
+                                    href="javascript:void(0);"
+                                    onClick={() => {
+                                        toggleLinks();
+                                        setPlaylist(playlist);
+                                    }}
+                                >
+                                    {playlist.name}
+                                </a>
+                            ))}
                     </div>
-                }
-            >
-                {<span className={`text-1`}>My Playlists</span>}
-                {myPlaylists?.map((playlist: IPlaylist, index: number) => (
-                    <div
-                        onClick={() => {
-                            setOpened(false);
-                            setPlaylist(playlist);
-                        }}
-                    >
-                        <li key={index} className={`sidebar-list-item light`}>
-                            {playlist.name}
-                        </li>
-                    </div>
-                ))}
-            </SideNav>
+                </div>
+            </>
         );
     };
 
     return !hideBottomBar ? (
         <div className={`action-button-container`}>
-            <div className={`open-button`} style={{ zIndex: `${!opened ? 15000 : 14000}` }}>
-                {getPlayerButtonAction()}
-            </div>
-
+            {getPlayerButtonAction()}
             <div className={`close-button`} style={{ zIndex: `${opened ? 15000 : 14000}` }}>
-                <Button
+                <button
                     className="close-control-button"
                     onClick={(e: any) => {
-                        console.log('scrap');
+                        toggleLinks();
+                        // setOpened(false);
 
-                        setOpened(false);
-
-                        setCloseSidebar(!closeSidebar);
+                        // setCloseSidebar(!closeSidebar);
                     }}
+                    id="bottom-menu"
                 >
                     <FontAwesomeIcon icon={faListAlt} />
-                </Button>
+                </button>
             </div>
         </div>
     ) : (
