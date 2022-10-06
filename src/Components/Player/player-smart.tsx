@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { IPlaylist } from '../../Models/playlist';
 
 interface Props {
@@ -14,20 +14,13 @@ const usePlayer = ({ activePlaylist, setActivePlaylist, setEditPlaylist }: Props
     const [playLength, setPlayLength] = useState<number>(0);
     const [delay, setDelay] = useState<number>();
     const [autoPlay, setAutoPlay] = useState(true);
-    // // @ts-ignore
-    // const [context, dispatch] = useContext(Context);
 
     const defaultDuration: number = 2500;
 
     useEffect(() => {
-        console.log('useeffect', activePlaylist);
         setPlaylist(activePlaylist);
         setPlayLength(activePlaylist?.record?.length || 0);
     }, [activePlaylist, setPlayLength, setPlaylist]);
-
-    useEffect(() => {
-        console.log('in player presentation.tsx', playlist);
-    }, [playlist]);
 
     useEffect(() => {
         if (playlist?.record) {

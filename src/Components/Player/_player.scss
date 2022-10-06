@@ -77,6 +77,7 @@ $player-width: 70vw;
 
 .gif-player-image {
     max-height: 100%;
+    object-fit: contain;
 }
 
 @media screen and (max-width: 991px) {

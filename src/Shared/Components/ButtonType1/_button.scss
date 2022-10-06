@@ -38,10 +38,6 @@ div > .button-container {
             box-shadow: none !important;
             outline: 0;
         }
-
-        &:hover:not(:active) {
-            background-color: $third3 !important;
-        }
     }
 
     span.ripple {

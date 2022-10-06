@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { Outlet, useLocation } from 'react-router-dom';
 import Bottombar from '../Bars/bottombar';
 import Topbar from '../Bars/topbar';
-import { GetUserDataByKey } from '../../Services/LocalStorage';
+import { GetUserDataByKey, GetUserToken } from '../../Services/LocalStorage';
 import usePlaylist from '../Playlist/playlist-smart';
 import { db } from '../../db';
 import { useLiveQuery } from 'dexie-react-hooks';
@@ -96,7 +96,7 @@ const MainLayout = () => {
         function tick() {
             savedCallback.current();
         }
-        if (delay !== null) {
+        if (GetUserToken() && delay !== null) {
             let id = setInterval(tick, delay);
             return () => clearInterval(id);
         }
@@ -137,7 +137,7 @@ const MainLayout = () => {
             }}
         >
             <Topbar showLinks={true} />
-            Server is {socket?.readyState === 1 ? 'up' : 'down'}
+            {GetUserToken() ? `Server is ${socket?.readyState === 1 ? 'up' : 'down'}` : ''}
             <div className={`row`}>
                 <div className="App"></div>
                 <Outlet />

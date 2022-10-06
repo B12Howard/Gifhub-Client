@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './_bars.scss';
-import 'materialize-css/dist/css/materialize.min.css';
-import { Navbar, NavItem, Icon } from 'react-materialize';
 import { LogoutService } from '../../Services/AuthenticationService';
 import { GetUserToken } from '../../Services/LocalStorage';
 
@@ -15,72 +13,89 @@ const Topbar = ({ showLinks }) => {
         },
         [navigate]
     );
+
+    const toggleLinks = () => {
+        const myLinks = document.getElementById('myLinks');
+        const elem = document.querySelector('#mobile-menu');
+        const style = getComputedStyle(elem);
+
+        if (style.display === 'none') {
+            return;
+        }
+
+        if (myLinks.classList.contains('show-mobile-nav-list')) {
+            myLinks.classList.remove('show-mobile-nav-list');
+        } else {
+            myLinks.classList.add('show-mobile-nav-list');
+        }
+    };
     return (
-        <Navbar
-            className={'nav-override'}
-            alignLinks="right"
-            brand={
-                <a className="brand-override" onClick={() => navigate('/home/dashboard', { replace: false })}>
-                    <span className={`text-2`}>GifHub</span>
+        <>
+            <div className="topnav">
+                <a className={`logo text-2`} onClick={() => navigate('/home/dashboard', { replace: false })}>
+                    GifHub
                 </a>
-            }
-            id="mobile-nav"
-            menuIcon={<Icon className={`burger`}>menu</Icon>}
-            options={{
-                draggable: true,
-                edge: 'left',
-                inDuration: 50,
-                onCloseEnd: null,
-                onCloseStart: null,
-                onOpenEnd: null,
-                onOpenStart: null,
-                outDuration: 50,
-                preventScrolling: true,
-            }}
-        >
-            <div className={'flex column'}>
-                <NavItem
-                    className={`sidebar-list-item`}
-                    onClick={() => navigate('/home/dashboard', { replace: false })}
-                >
-                    Dashboard
-                </NavItem>
-                <NavItem className={`sidebar-list-item`} onClick={() => navigate('/home/player', { replace: false })}>
-                    Player
-                </NavItem>
-                <NavItem
-                    className={`sidebar-list-item`}
-                    onClick={() => navigate('/home/playlists', { replace: false })}
-                >
-                    Playlists
-                </NavItem>
-                {GetUserToken() && (
-                    <NavItem
-                        className={`sidebar-list-item`}
-                        onClick={() => navigate('/members/gif-creator', { replace: false })}
+                <div className="nav-list mobile-nav-list" id="myLinks">
+                    <a
+                        className={`nav-list-item`}
+                        onClick={() => {
+                            toggleLinks();
+                            navigate('/home/dashboard', { replace: false });
+                        }}
+                    >
+                        Dashboard
+                    </a>
+                    <a
+                        className={`nav-list-item`}
+                        onClick={() => {
+                            toggleLinks();
+                            navigate('/home/player', { replace: false });
+                        }}
+                    >
+                        Player
+                    </a>
+                    <a
+                        className={`nav-list-item`}
+                        onClick={() => {
+                            toggleLinks();
+                            navigate('/home/playlists', { replace: false });
+                        }}
+                    >
+                        Playlists
+                    </a>
+                    <a
+                        className={`nav-list-item`}
+                        onClick={() => {
+                            toggleLinks();
+                            navigate('/members/gif-creator', { replace: false });
+                        }}
                     >
                         Gif Creator
-                    </NavItem>
-                )}
-                {GetUserToken() && (
-                    <NavItem
-                        className={`sidebar-list-item`}
-                        onClick={() => navigate('/members/my-uploads', { replace: false })}
+                    </a>
+                    <a
+                        className={`nav-list-item`}
+                        onClick={() => {
+                            toggleLinks();
+                            navigate('/members/my-uploads', { replace: false });
+                        }}
                     >
                         My Uploads
-                    </NavItem>
-                )}
-                <NavItem
-                    className={`sidebar-list-item`}
-                    onClick={() => {
-                        LogoutService();
-                        redirect('/auth/login');
-                    }}
-                >
-                    {GetUserToken() ? 'Logout' : 'Login'}
-                </NavItem>
+                    </a>
+                    <a
+                        className={`nav-list-item`}
+                        onClick={() => {
+                            LogoutService();
+                            redirect('/auth/login');
+                        }}
+                    >
+                        {GetUserToken() ? 'Logout' : 'Login'}
+                    </a>
+                </div>
+                <a href="javascript:void(0);" className={`mobile-menu`} id="mobile-menu" onClick={() => toggleLinks()}>
+                    <span className="mobile-icon">≡</span>
+                </a>
             </div>
-        </Navbar>
+        </>
     );
 };
 export default Topbar;

@@ -1,12 +1,22 @@
 // Only works when imports into index.scss not in the component style
 .side-nav,
 .sidenav {
-    background-image: $bgColor, url('../Assets/laura-cleffmann-9NeMqfxFFTE-unsplash-min.jpeg');
     color: black;
     padding: 1rem !important;
     z-index: -91 !important;
 }
 
+@media only screen and (max-width: $small) {
+    .nav-list {
+        background-image: $bgColor, url('../Assets/laura-cleffmann-9NeMqfxFFTE-unsplash-min.jpeg');
+    }
+}
+
+.playlist-display,
+.side-nav,
+.sidenav {
+    background-image: $bgColor, url('../Assets/laura-cleffmann-9NeMqfxFFTE-unsplash-min.jpeg');
+}
 .sidenav-overlay {
     display: none;
     z-index: -110 !important;
