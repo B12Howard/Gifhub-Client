@@ -64,7 +64,7 @@ nav {
         position: fixed;
         background-color: black;
         height: 0;
-        width: 82vw;
+        width: 99vw;
         opacity: 0;
         -webkit-transition: all 0.25s ease-in-out;
         -moz-transition: all 0.25s ease-in-out;
@@ -91,13 +91,16 @@ nav {
         display: block;
     }
 
-    // .mobile-show-playlist-display,
     .mobile-playlist-display {
-        left: 9% !important;
-        width: 82vw !important;
+        left: 0.75% !important;
+        width: 98.5vw !important;
     }
 }
-
+@media only screen and (max-width: $mobile) {
+    .nav-list {
+        width: 98vw;
+    }
+}
 @media only screen and (min-width: $small) {
     .mobile-menu {
         display: none;
@@ -106,7 +109,7 @@ nav {
 
 .show-mobile-nav-list {
     opacity: 1;
-    top: 4rem;
+    top: 3.5rem;
     height: 100%;
     z-index: 10;
 }
@@ -159,7 +162,7 @@ nav {
     background-color: black;
     left: 16%;
     opacity: 1;
-    bottom: -4rem;
+    bottom: -3.5rem;
     height: 100%;
     width: 68vw;
     z-index: 10;
@@ -181,6 +184,6 @@ nav {
 
 @media screen and (max-width: $small) {
     .bottombar {
-        width: 75vw;
+        width: 96vw;
     }
 }
