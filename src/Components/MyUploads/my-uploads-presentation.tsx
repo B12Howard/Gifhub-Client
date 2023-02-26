@@ -1,6 +1,6 @@
 import { faPlusSquare, faTrashCan, faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Button, Modal, Select } from 'react-materialize';
 import { IPlaylist } from '../../Models/playlist';
@@ -8,6 +8,8 @@ import CustomButton from '../../Shared/Components/ButtonType1/button';
 import usePlaylistEdit from '../Playlist/PlaylistEdit/playlist-edit-smart';
 import useGif from '../GifCreator/gif-smart';
 import usePlaylist from '../Playlist/playlist-smart';
+import { GetUserToken } from '../../Services/LocalStorage';
+import { Context } from '../../Store/Store';
 
 const MyUploads = () => {
     const {
@@ -34,6 +36,8 @@ const MyUploads = () => {
 
     const { getPlaylistForEdit, editPlaylist, setEditPlaylist } = usePlaylist();
     const [localTargetPlaylistObj, setLocalTargetPlaylistObj] = useState<IPlaylist | null | undefined>();
+    // @ts-ignore
+    const [context, dispatch] = useContext(Context);
 
     useEffect(() => {
         getGifsPagination().then((res) => {
@@ -103,11 +107,12 @@ const MyUploads = () => {
         <>
             <div className={``}>
                 <Helmet>
-                    <title>My Remote Files</title>
+                    <title>My Remote Files Gif Creator</title>
                 </Helmet>
             </div>
-            <div className={`col-md-6 mb-5`}>My Remote Files</div>
-
+            <div className={`col-md-6 mb-5`}>
+                My Remote Files {GetUserToken() ? `Server is ${context?.server?.status === 1 ? 'up' : 'down'}` : ''}
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -304,7 +309,6 @@ const MyUploads = () => {
                     })}
                 </tbody>
             </table>
-
             <div>
                 My Files
                 <div className="">
@@ -323,9 +327,8 @@ const MyUploads = () => {
                     </Select>
                 </div>
                 <div className="flex">
-                    <CustomButton name={'◀'} callback={() => paginationPrev()} disabled={paginationCount === 0} />
-
-                    <CustomButton name={'▶'} callback={() => paginationNext()} />
+                    <CustomButton name={'◀'} callback={() => paginationPrev()} isDisabled={paginationCount === 0} />
+                    <CustomButton name={'▶'} callback={() => paginationNext()} isDisabled={!rowCount} />
                 </div>
             </div>
         </>

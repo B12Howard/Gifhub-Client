@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Bottombar from '../Bars/bottombar';
 import Topbar from '../Bars/topbar';
@@ -14,6 +14,7 @@ import playerBg from '../../Assets/barna-kovacs-vfAguUFUIgo-unsplash-min.jpeg';
 import myUploadsBg from '../../Assets/iwan-shimko-PhciG8fpRKw-unsplash-min.jpeg';
 import creatorBg from '../../Assets/rochelle-lee-6LscnhGdFsw-unsplash-min.jpeg';
 import playlistBg from '../../Assets/rochelle-lee-uqa8vZROxkY-unsplash-min.jpeg';
+import { Context } from '../../Store/Store';
 
 const MainLayout = () => {
     const [closeSidebar, setCloseSidebar] = useState(false);
@@ -28,6 +29,8 @@ const MainLayout = () => {
     let [delay, setDelay] = useState(1000);
     // @ts-ignore
     const location = useLocation<Location>();
+    // @ts-ignore
+    const [context, dispatch] = useContext(Context);
     const { addPlaylist, setPlaylist, setActivePlaylist, setEditPlaylist, newPlaylist, setNewPlaylist, playlist } =
         usePlaylist();
     const savedCallback: React.MutableRefObject<any> = useRef();
@@ -76,6 +79,12 @@ const MainLayout = () => {
         socket.onmessage = (e) => {
             const parsed = JSON.parse(e.data);
             setMessage('Get message from server: ' + e.data);
+            dispatch({
+                type: 'SERVER_STATE',
+                payload: {
+                    status: socket?.readyState,
+                },
+            });
             M.toast({ html: parsed.eventPayload.username + ': ' + parsed.eventPayload.message, displayLength: 3000 });
         };
 
@@ -137,7 +146,6 @@ const MainLayout = () => {
             }}
         >
             <Topbar showLinks={true} />
-            {GetUserToken() ? `Server is ${socket?.readyState === 1 ? 'up' : 'down'}` : ''}
             <div className={`row`}>
                 <div className="App"></div>
                 <Outlet />
