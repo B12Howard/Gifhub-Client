@@ -1,7 +1,10 @@
 import './_button.scss';
 
-const Button = ({ name, callback, disabled = false }) => {
+const Button = ({ name, callback, isDisabled = false }) => {
     function createRipple(event) {
+        if (isDisabled) {
+            return;
+        }
         const button = event.currentTarget;
         const btnRect = button.getBoundingClientRect();
         const circle = document.createElement('span');
@@ -24,8 +27,8 @@ const Button = ({ name, callback, disabled = false }) => {
     }
 
     return (
-        <div className={'button-container'} disabled>
-            <button className={'floating-button'} onClick={createRipple}>
+        <div className={'button-container'}>
+            <button className={'floating-button'} onClick={createRipple} disabled={isDisabled}>
                 {name}
             </button>
         </div>
