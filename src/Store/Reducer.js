@@ -22,6 +22,11 @@ const Reducer = (state, action) => {
                 ...state,
                 user: initialState.user,
             };
+        case 'SERVER_STATE':
+            return {
+                ...state,
+                user: action.user,
+            };
         default:
             return state;
     }
