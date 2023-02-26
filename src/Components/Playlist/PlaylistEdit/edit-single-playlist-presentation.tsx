@@ -56,7 +56,7 @@ const EditSinglePlaylist = ({ editPlaylist, setEditPlaylist, setPlaylistForPlaye
 
     return (
         <div>
-            <div>
+            <div className={`nav-bar`}>
                 <button
                     className={`back`}
                     onClick={() => {
@@ -80,6 +80,7 @@ const EditSinglePlaylist = ({ editPlaylist, setEditPlaylist, setPlaylistForPlaye
                                     if (!editPlaylist) return;
                                     addGif(editPlaylist, url);
                                 }}
+                                isDisabled={!url?.length}
                             />
                         </div>
                         <div className={`button-container`}>
