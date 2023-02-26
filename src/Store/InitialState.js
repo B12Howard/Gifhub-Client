@@ -20,5 +20,8 @@ const initialState = {
         name: null,
         record: null,
     },
+    server: {
+        status: '',
+    },
 };
 export default initialState;

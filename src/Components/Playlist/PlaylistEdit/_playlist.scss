@@ -1,3 +1,5 @@
+@import '../../../Styles/variables';
+
 tr:hover {
     background-color: #e6dfd9 !important;
 }
@@ -10,4 +12,7 @@ td {
 }
 .preview-container {
     overflow-y: hidden;
+}
+.nav-bar {
+    background-color: $secondary4;
 }

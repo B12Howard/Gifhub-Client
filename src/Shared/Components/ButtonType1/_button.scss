@@ -29,14 +29,14 @@ div > .button-container {
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
         cursor: pointer;
 
-        &:focus {
-            background-color: $third1 !important;
-        }
-
-        &:active {
+        &:enabled:active {
             background-color: $third2 !important;
             box-shadow: none !important;
             outline: 0;
+        }
+
+        &:disabled {
+            opacity: 0.65;
         }
     }
 

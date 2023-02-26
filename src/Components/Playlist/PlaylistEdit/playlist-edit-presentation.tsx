@@ -51,6 +51,7 @@ const PlaylistEditPresentation = ({
                         addPlaylist(newPlaylist);
                         setNewPlaylist('');
                     }}
+                    isDisabled={!newPlaylist?.length}
                 />
             </div>
             <div>

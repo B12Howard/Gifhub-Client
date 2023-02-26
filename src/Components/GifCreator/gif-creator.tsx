@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { GetUserDataByKey } from '../../Services/LocalStorage';
+import { useContext, useState } from 'react';
+import { GetUserDataByKey, GetUserToken } from '../../Services/LocalStorage';
 import { ConvertPayloadDTO, IConvertPayloadDTO } from '../../Models/ConvertPayload';
 import ConvertToGifService from '../../Services/Api/ConverterService';
 import Button from '../../Shared/Components/ButtonType1/button';
 // @ts-ignore
 import { toast } from 'materialize-css/dist/js/materialize.min.js';
 import DurationInput from '../../Shared/Components/Time/duration-input';
-
+import { Context } from '../../Store/Store';
 const GifCreator = () => {
     const [mp4Url, setMp4Url] = useState<string>('');
     const [start, setStart] = useState<{ hour: string; min: string; sec: string }>({
@@ -19,6 +19,8 @@ const GifCreator = () => {
         min: '',
         sec: '',
     });
+    // @ts-ignore
+    const [context, dispatch] = useContext(Context);
 
     const submit = async () => {
         if (!mp4Url || !start || !end) return;
@@ -71,7 +73,7 @@ const GifCreator = () => {
     return (
         <>
             <div>
-                Gif Creator
+                Gif Creator {GetUserToken() ? `Server is ${context?.server?.status === 1 ? 'up' : 'down'}` : ''}
                 <input
                     id="mp4Url"
                     name="mp4Url"
